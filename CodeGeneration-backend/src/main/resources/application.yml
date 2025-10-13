@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: CodeGeneration-backend
+server:
+  port: 8977
+  servlet:
+    context-path: /api
+
+# springdoc-openapi
+springdoc:
+  group-configs:
+    - group: 'default'
+      packages-to-scan: com.liuh.codegenerationbackend.controller
+# knife4j
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
