@@ -3,6 +3,7 @@ package com.liuh.codegenerationbackend.exception;
 
 import com.liuh.codegenerationbackend.common.BaseResponse;
 import com.liuh.codegenerationbackend.common.ResultUtils;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @SuppressWarnings("all")
 @RestControllerAdvice
 @Slf4j
+@Hidden
 public class GlobalExceptionHandler {
 
     /**

@@ -11,6 +11,7 @@ springdoc:
   group-configs:
     - group: 'default'
       packages-to-scan: com.liuh.codegenerationbackend.controller
+
 # knife4j
 knife4j:
   enable: true
