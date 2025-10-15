@@ -25,7 +25,32 @@
       <a-col flex="100px">
         <!--    总的登录图标    -->
         <div class="user-login-status">
-          <a-button type="primary" href="/user/login">登录</a-button>
+          <div v-if="loginUserStore.loginUser.id">
+            <a-dropdown>
+              <a-space>
+                <a-avatar :src="loginUserStore.loginUser.userAvatar" />
+                {{ loginUserStore.loginUser.userName ?? '无名' }}
+              </a-space>
+              <template #overlay>
+                <a-menu>
+                  <a-menu-item>
+                    <router-link to="/my_updateUser">
+                      <UserOutlined />
+                      修改信息
+                    </router-link>
+                  </a-menu-item>
+                  <a-menu-item @click="doLogout">
+                    <LogoutOutlined />
+                    退出登录
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </div>
+
+          <div v-else>
+            <a-button type="primary" href="/user/login">登录</a-button>
+          </div>
         </div>
       </a-col>
     </a-row>
@@ -33,10 +58,11 @@
 </template>
 <script lang="ts" setup>
 import { h, ref } from 'vue'
-import { HomeOutlined } from '@ant-design/icons-vue'
-import { MenuProps } from 'ant-design-vue'
+import { HomeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons-vue'
+import { MenuProps, message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useLoginUserStore } from '@/stores/useLoginUserStore.ts'
+import { userLogout } from '@/api/userController.ts'
 //设置登录
 const loginUserStore = useLoginUserStore()
 
@@ -51,6 +77,11 @@ const items = ref<MenuProps['items']>([
     key: '/about',
     label: '关于',
     title: '关于',
+  },
+  {
+    key: '/admin/userManage',
+    label: '用户管理',
+    title: '用户管理',
   },
 ])
 
@@ -77,6 +108,24 @@ router.afterEach((to, from, next) => {
   /*将current 的值改为接下来要跳转的页面*/
   current.value = [to.path]
 })
+
+//用户注销
+const doLogout = async () => {
+  const res = await userLogout()
+  if (res.data.code == 0) {
+    //清理登录态
+    loginUserStore.setLoginUser({
+      userName: '未登录',
+    })
+    message.success('退出登录')
+    //重新返回主页页面
+    router.push({
+      path: '/',
+    })
+  } else {
+    message.error('注销失败' + res.data.message)
+  }
+}
 
 /*样式*/
 </script>
