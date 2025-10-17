@@ -34,7 +34,7 @@
               <template #overlay>
                 <a-menu>
                   <a-menu-item>
-                    <router-link to="/my_updateUser">
+                    <router-link to="/user/my_updateUser">
                       <UserOutlined />
                       修改信息
                     </router-link>

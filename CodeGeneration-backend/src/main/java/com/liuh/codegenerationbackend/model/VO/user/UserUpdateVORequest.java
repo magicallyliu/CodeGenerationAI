@@ -1,16 +1,16 @@
-package com.liuh.codegenerationbackend.model.dto.user;
+package com.liuh.codegenerationbackend.model.VO.user;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * @Description 用户更新 -- 管理员
+ * @Description 用户更新 -- 用户
  */
 
 @SuppressWarnings("all")
 @Data
-public class UserUpdateRequest implements Serializable {
+public class UserUpdateVORequest implements Serializable {
 
     /**
      * id
@@ -32,10 +32,6 @@ public class UserUpdateRequest implements Serializable {
      */
     private String userProfile;
 
-    /**
-     * 用户角色：user/admin
-     */
-    private String userRole;
 
     private static final long serialVersionUID = 1L;
 }

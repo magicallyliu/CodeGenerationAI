@@ -10,20 +10,17 @@ import com.liuh.codegenerationbackend.constant.UserConstant;
 import com.liuh.codegenerationbackend.exception.BusinessException;
 import com.liuh.codegenerationbackend.exception.ErrorCode;
 import com.liuh.codegenerationbackend.exception.ThrowUtils;
-import com.liuh.codegenerationbackend.model.VO.LoginUserVO;
-import com.liuh.codegenerationbackend.model.VO.UserVO;
+import com.liuh.codegenerationbackend.model.VO.user.LoginUserVO;
+import com.liuh.codegenerationbackend.model.VO.user.UserUpdateVORequest;
+import com.liuh.codegenerationbackend.model.VO.user.UserVO;
 import com.liuh.codegenerationbackend.model.dto.user.*;
 import com.mybatisflex.core.paginate.Page;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.liuh.codegenerationbackend.model.entity.User;
 import com.liuh.codegenerationbackend.service.UserService;
 import org.springframework.web.bind.annotation.RestController;
@@ -150,11 +147,25 @@ public class UserController {
         boolean b = userService.removeById(deleteRequest.getId());
         return ResultUtils.success(b);
     }
-
+    /**
+     * 更新用户
+     */
+    @PostMapping("/update/VO")
+    public BaseResponse<Boolean> updateUserVO(@RequestBody UserUpdateVORequest userUpdateRequest) {
+        if (userUpdateRequest == null || userUpdateRequest.getId() == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        User user = new User();
+        BeanUtil.copyProperties(userUpdateRequest, user);
+        boolean result = userService.updateById(user);
+        ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
+        return ResultUtils.success(true);
+    }
     /**
      * 更新用户
      */
     @PostMapping("/update")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> updateUser(@RequestBody UserUpdateRequest userUpdateRequest) {
         if (userUpdateRequest == null || userUpdateRequest.getId() == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);

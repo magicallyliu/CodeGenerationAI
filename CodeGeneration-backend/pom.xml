@@ -35,6 +35,26 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- langchain4j核心包-->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <!-- langchain4j和openAi的整合包-->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
+            <version>1.1.0-beta7</version>
+        </dependency>
+        <!-- 用于流式输出-->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-reactor</artifactId>
+            <version>1.1.0-beta7</version>
+        </dependency>
+
+
         <!-- https://mybatis-flex.com/zh/others/codegen.html-->
         <dependency>
             <groupId>com.mybatis-flex</groupId>

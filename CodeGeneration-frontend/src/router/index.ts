@@ -3,7 +3,7 @@ import HomePage from '@/pages/HomePage.vue'
 import UserLoginPage from '@/pages/user/UserLoginPage.vue'
 import UserRegisterPage from '@/pages/user/UserRegisterPage.vue'
 import UserManagePage from '@/pages/admin/UserManagePage.vue'
-import UserUpdate from '@/pages/user/UserUpdate.vue'
+import UserUpdatePage from '@/pages/user/UserUpdatePage.vue'
 
 
 const router = createRouter({
@@ -30,9 +30,9 @@ const router = createRouter({
       component: UserManagePage,
     },
     {
-      path: '/my_updateUser',
+      path: '/user/my_updateUser',
       name: '修改用户信息',
-      component: UserUpdate,
+      component: UserUpdatePage,
     },
   ],
 

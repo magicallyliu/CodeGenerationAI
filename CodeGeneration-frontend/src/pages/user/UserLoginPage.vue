@@ -1,6 +1,6 @@
 <template>
   <div id="userLoginPage">
-    <h2 class="title">须臾代码生成平台 - 用户注册</h2>
+    <h2 class="title">须臾代码生成平台 - 用户登录</h2>
     <div class="desc">AI代码生成平台</div>
     <!--  是否需要将历史记录显示
         autocomplete="off"

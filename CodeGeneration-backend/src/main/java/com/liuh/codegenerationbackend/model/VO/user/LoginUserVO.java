@@ -1,11 +1,10 @@
-package com.liuh.codegenerationbackend.model.VO;
+package com.liuh.codegenerationbackend.model.VO.user;
 
 
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @Description 脱敏后的用户登录数据

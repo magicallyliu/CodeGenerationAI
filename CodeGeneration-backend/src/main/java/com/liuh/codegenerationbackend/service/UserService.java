@@ -1,8 +1,8 @@
 package com.liuh.codegenerationbackend.service;
 
 
-import com.liuh.codegenerationbackend.model.VO.LoginUserVO;
-import com.liuh.codegenerationbackend.model.VO.UserVO;
+import com.liuh.codegenerationbackend.model.VO.user.LoginUserVO;
+import com.liuh.codegenerationbackend.model.VO.user.UserVO;
 import com.liuh.codegenerationbackend.model.dto.user.UserQueryRequest;
 import com.liuh.codegenerationbackend.model.entity.User;
 import com.mybatisflex.core.query.QueryWrapper;

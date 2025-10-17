@@ -1,4 +1,4 @@
-package com.liuh.codegenerationbackend.model.VO;
+package com.liuh.codegenerationbackend.model.VO.user;
 
 
 
