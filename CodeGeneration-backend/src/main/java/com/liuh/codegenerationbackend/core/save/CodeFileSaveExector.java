@@ -24,12 +24,13 @@ public class CodeFileSaveExector {
      *
      * @param codeResult      代码生成结果
      * @param codeGenTypeEnum 代码生成类型
+     * @param appId  应用id
      * @return 保存代码的目录对象 --  保存代码的位置
      */
-    public static File executeSave(Object codeResult, CodeGenTypeEnum codeGenTypeEnum) {
+    public static File executeSave(Object codeResult, CodeGenTypeEnum codeGenTypeEnum,  Long appId) {
         return switch (codeGenTypeEnum) {
-            case HTML -> HTML_CODE_FILE_SAVER_TEMPLATE.saveCode((HtmlCodeResult) codeResult);
-            case MULTI_FILE -> MULTI_FILE_CODE_FILE_SAVER_TEMPLATE.saveCode((MultiFileCodeResult) codeResult);
+            case HTML -> HTML_CODE_FILE_SAVER_TEMPLATE.saveCode((HtmlCodeResult) codeResult,appId);
+            case MULTI_FILE -> MULTI_FILE_CODE_FILE_SAVER_TEMPLATE.saveCode((MultiFileCodeResult) codeResult,  appId);
             default -> throw new BusinessException(ErrorCode.SYSTEM_ERROR,  "不支持该类型的代码保存: " + codeGenTypeEnum.getValue());
         };
     }

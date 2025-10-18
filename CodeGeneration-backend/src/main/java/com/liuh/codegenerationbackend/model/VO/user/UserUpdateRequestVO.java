@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @SuppressWarnings("all")
 @Data
-public class UserUpdateVORequest implements Serializable {
+public class UserUpdateRequestVO implements Serializable {
 
     /**
      * id

@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
+import com.liuh.codegenerationbackend.constant.AppConstant;
 import com.liuh.codegenerationbackend.exception.BusinessException;
 import com.liuh.codegenerationbackend.exception.ErrorCode;
 import com.liuh.codegenerationbackend.model.enums.CodeGenTypeEnum;
@@ -24,19 +25,20 @@ public abstract class CodeFileSaveTemplate<T> {
      * 定义一个文件保存的根目录
      * System.getProperty("user.dir") 返回项目的绝对路径
      */
-    private static final String FILE_SAVE_ROOT_PATH = System.getProperty("user.dir") + "/tmp/code_output/";
+    private static final String FILE_SAVE_ROOT_PATH = AppConstant.CODE_OUTPUT_ROOT_DIR;
 
     /**
      * 定义保存代码文件的流程
      *
      * @param result 代码生成结果
+     * @param appId 应用id
      * @return 返回文件目录对象 -- 保存代码的位置
      */
-    public final File saveCode(T result) {
+    public final File saveCode(T result,Long  appId) {
         //1. 验证输入
         validateInput(result);
         //2. 构建唯一目录
-        String baseDirPath = buildFileUniquePath();
+        String baseDirPath = buildFileUniquePath(appId);
         //3.  保存代码文件
         saveFiles(result, baseDirPath);
         //4. 返回文件目录对象
@@ -78,11 +80,15 @@ public abstract class CodeFileSaveTemplate<T> {
      * 构建文件的唯一路径 (tmp/code_output/codeType_雪花ID)
      *
      * @param bizType 代码生成的类型(HTML/多文件)
+     * @param appId 应用id
      * @return 返回文件的唯一路径
      */
-    protected final String buildFileUniquePath() {
+    protected final String buildFileUniquePath(Long appId) {
+        if (ObjUtil.isNull(appId)) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "应用id不能为空");
+        }
         String codeType = getCodeType().getValue();
-        String fileUniquePath = FILE_SAVE_ROOT_PATH + File.separator + codeType + "_" + IdUtil.getSnowflakeNextIdStr();
+        String fileUniquePath = FILE_SAVE_ROOT_PATH + File.separator + codeType + "_" + appId;
         //创建路径
         FileUtil.mkdir(fileUniquePath);
         return fileUniquePath;

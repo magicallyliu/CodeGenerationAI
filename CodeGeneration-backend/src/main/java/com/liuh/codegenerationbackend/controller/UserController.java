@@ -11,7 +11,7 @@ import com.liuh.codegenerationbackend.exception.BusinessException;
 import com.liuh.codegenerationbackend.exception.ErrorCode;
 import com.liuh.codegenerationbackend.exception.ThrowUtils;
 import com.liuh.codegenerationbackend.model.VO.user.LoginUserVO;
-import com.liuh.codegenerationbackend.model.VO.user.UserUpdateVORequest;
+import com.liuh.codegenerationbackend.model.VO.user.UserUpdateRequestVO;
 import com.liuh.codegenerationbackend.model.VO.user.UserVO;
 import com.liuh.codegenerationbackend.model.dto.user.*;
 import com.mybatisflex.core.paginate.Page;
@@ -151,12 +151,12 @@ public class UserController {
      * 更新用户
      */
     @PostMapping("/update/VO")
-    public BaseResponse<Boolean> updateUserVO(@RequestBody UserUpdateVORequest userUpdateRequest) {
-        if (userUpdateRequest == null || userUpdateRequest.getId() == null) {
+    public BaseResponse<Boolean> updateUserVO(@RequestBody UserUpdateRequestVO userUpdateRequestVO) {
+        if (userUpdateRequestVO == null || userUpdateRequestVO.getId() == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         User user = new User();
-        BeanUtil.copyProperties(userUpdateRequest, user);
+        BeanUtil.copyProperties(userUpdateRequestVO, user);
         boolean result = userService.updateById(user);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         return ResultUtils.success(true);

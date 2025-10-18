@@ -50,6 +50,7 @@ public interface UserService extends IService<User> {
     LoginUserVO getLoginUserVO(User user);
 
     /**
+     * 用户登录
      * @param userAccount  用户名
      * @param userPassword 密码
      * @param request      前端返回需要测试的用户名/密码

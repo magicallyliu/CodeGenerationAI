@@ -29,15 +29,15 @@ public class AiCodeGeneratorFacade {
     private AiCodeGeneratorService aiCodeGeneratorService;
 
 
-
     /**
      * 门面的入口, 根据类型生成并保存代码
      *
      * @param userMessage     用户提示词
      * @param codeGenTypeEnum 代码生成类型
+     * @param appId           应用id
      * @return 返回生成的代码文件
      */
-    public File generateSaveCode(String userMessage, CodeGenTypeEnum codeGenTypeEnum) {
+    public File generateSaveCode(String userMessage, CodeGenTypeEnum codeGenTypeEnum, Long appId) {
         if (ObjUtil.isEmpty(codeGenTypeEnum)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "代码生成类型不能为空");
         }
@@ -48,14 +48,14 @@ public class AiCodeGeneratorFacade {
                 //调用ai生成
                 HtmlCodeResult htmlCodeResult = aiCodeGeneratorService.generateHtmlCode(userMessage);
                 //保存代码
-                yield  CodeFileSaveExector.executeSave(htmlCodeResult, codeGenTypeEnum);
+                yield CodeFileSaveExector.executeSave(htmlCodeResult, codeGenTypeEnum, appId);
             }
 
             case CodeGenTypeEnum.MULTI_FILE -> {
                 //调用ai生成
                 MultiFileCodeResult multiFileCodeResult = aiCodeGeneratorService.generateMultiFileCode(userMessage);
                 //保存代码
-                yield  CodeFileSaveExector.executeSave(multiFileCodeResult, codeGenTypeEnum);
+                yield CodeFileSaveExector.executeSave(multiFileCodeResult, codeGenTypeEnum, appId);
             }
             default -> {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "不支持该类型的代码生成: " + codeGenTypeEnum.getValue());
@@ -69,9 +69,10 @@ public class AiCodeGeneratorFacade {
      *
      * @param userMessage     用户提示词
      * @param codeGenTypeEnum 代码生成类型
+     * @param appId           应用id
      * @return 返回生成的代码文件
      */
-    public Flux<String> generateSaveCodeStream(String userMessage, CodeGenTypeEnum codeGenTypeEnum) {
+    public Flux<String> generateSaveCodeStream(String userMessage, CodeGenTypeEnum codeGenTypeEnum, Long appId) {
         if (ObjUtil.isEmpty(codeGenTypeEnum)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "代码生成类型不能为空");
         }
@@ -80,14 +81,14 @@ public class AiCodeGeneratorFacade {
         return switch (codeGenTypeEnum) {
             case CodeGenTypeEnum.HTML -> {
                 Flux<String> codeStream = aiCodeGeneratorService.generateHtmlCodeStream(userMessage);
-                yield processCodeStream(codeStream, CodeGenTypeEnum.HTML);
+                yield processCodeStream(codeStream, CodeGenTypeEnum.HTML, appId);
             }
 
             case CodeGenTypeEnum.MULTI_FILE -> {
                 Flux<String> codeStream = aiCodeGeneratorService.generateMultiFileCodeStream(userMessage);
-                yield processCodeStream(codeStream, CodeGenTypeEnum.MULTI_FILE);
+                yield processCodeStream(codeStream, CodeGenTypeEnum.MULTI_FILE, appId);
             }
-            default ->{
+            default -> {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "不支持该类型的代码生成: " + codeGenTypeEnum.getValue());
             }
 
@@ -97,11 +98,13 @@ public class AiCodeGeneratorFacade {
     /**
      * 生成并保存代码(抽象出公共逻辑) -- 流式()
      * HTML/多文件
-     * @param codeStream  代码流
-     * @param  codeGenTypeEnum 代码生成类型
+     *
+     * @param codeStream      代码流
+     * @param codeGenTypeEnum 代码生成类型
+     * @param appId           应用id
      * @return 返回生成的代码文件--流式
      */
-    private Flux<String> processCodeStream(Flux<String> codeStream,CodeGenTypeEnum codeGenTypeEnum) {
+    private Flux<String> processCodeStream(Flux<String> codeStream, CodeGenTypeEnum codeGenTypeEnum, Long appId) {
         //定义一个字符串拼接器, 用于当流式返回所有代码之后再保存代码
         StringBuilder codeBuilder = new StringBuilder();
         return codeStream.doOnNext(chunk -> {
@@ -114,7 +117,7 @@ public class AiCodeGeneratorFacade {
                 //使用执行器解析代码
                 Object parserResult = CodeParserExector.executeParser(completeCode, codeGenTypeEnum);
                 //使用执行器保存代码
-                File saveFile = CodeFileSaveExector.executeSave(parserResult, codeGenTypeEnum);
+                File saveFile = CodeFileSaveExector.executeSave(parserResult, codeGenTypeEnum, appId);
                 log.info("多文件代码保存成功, 保存路径: {}", saveFile.getAbsolutePath());
             } catch (Exception e) {
                 log.error("多文件代码保存失败", e.getMessage());
