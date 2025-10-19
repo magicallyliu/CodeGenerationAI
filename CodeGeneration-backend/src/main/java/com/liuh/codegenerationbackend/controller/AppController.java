@@ -67,7 +67,7 @@ public class AppController {
         //因为浏览器的接收无法接收空格, 将流转换为一个JSON来返回
         Flux<String> stringFlux = appService.chatToGenCode(appId, message, loginUser);
         return stringFlux.map(chunk -> {
-                    Map<String, String> wrapper = Map.of("v", chunk);
+                    Map<String, String> wrapper = Map.of("d", chunk);
                     String jsonStr = JSONUtil.toJsonStr(wrapper);
                     return ServerSentEvent.<String>builder()
                             .data(jsonStr)

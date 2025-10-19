@@ -78,7 +78,7 @@
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from 'vue'
 import { message, type FormInstance } from 'ant-design-vue'
-import { useLoginUserStore } from '@/stores/useLoginUserStore.ts'
+import { useLoginUserStore } from '@/stores/loginUser.ts'
 import { getLoginUser, updateUserVo } from '@/api/userController.ts'
 
 const loginUserStore = useLoginUserStore()
@@ -210,6 +210,7 @@ onMounted(() => {
   }
 }
 </style>
+
 
 
 

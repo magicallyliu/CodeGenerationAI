@@ -128,7 +128,7 @@ export async function updateUser(body: API.UserUpdateRequest, options?: { [key: 
 
 /** 此处后端没有提供注释 POST /user/update/VO */
 export async function updateUserVo(
-  body: API.UserUpdateVORequest,
+  body: API.UserUpdateRequestVO,
   options?: { [key: string]: any }
 ) {
   return request<API.BaseResponseBoolean>('/user/update/VO', {

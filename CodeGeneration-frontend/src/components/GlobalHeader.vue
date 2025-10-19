@@ -1,29 +1,26 @@
 <template>
-  <div id="globalHeader">
-    <!--wrap="false" 取消自动换行-->
+  <a-layout-header class="header">
     <a-row :wrap="false">
+      <!-- 左侧：Logo和标题 -->
       <a-col flex="200px">
-        <!--   图标和名称     -->
-        <router-link to="/">
-          <div class="title-bar">
-            <img class="logo" src="../assets/logo.png" alt="logo" />
-            <div class="title">须臾代码平台</div>
+        <RouterLink to="/">
+          <div class="header-left">
+            <img class="logo" src="@/assets/logo.png" alt="Logo" />
+            <h1 class="site-title">须臾网页生成</h1>
           </div>
-        </router-link>
+        </RouterLink>
       </a-col>
+      <!-- 中间：导航菜单 -->
       <a-col flex="auto">
-        <!--    菜单
-@click="doMenuClick" 绑定事件  点击 MenuItem 调用此函数
-        -->
         <a-menu
-          v-model:selectedKeys="current"
+          v-model:selectedKeys="selectedKeys"
           mode="horizontal"
-          :items="items"
-          @click="doMenuClick"
+          :items="menuItems"
+          @click="handleMenuClick"
         />
       </a-col>
-      <a-col flex="100px">
-        <!--    总的登录图标    -->
+      <!-- 右侧：用户操作区域 -->
+      <a-col>
         <div class="user-login-status">
           <div v-if="loginUserStore.loginUser.id">
             <a-dropdown>
@@ -47,26 +44,34 @@
               </template>
             </a-dropdown>
           </div>
-
           <div v-else>
             <a-button type="primary" href="/user/login">登录</a-button>
           </div>
         </div>
       </a-col>
     </a-row>
-  </div>
+  </a-layout-header>
 </template>
-<script lang="ts" setup>
-import { h, ref } from 'vue'
-import { HomeOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons-vue'
-import { MenuProps, message } from 'ant-design-vue'
-import { useRouter } from 'vue-router'
-import { useLoginUserStore } from '@/stores/useLoginUserStore.ts'
-import { userLogout } from '@/api/userController.ts'
-//设置登录
-const loginUserStore = useLoginUserStore()
 
-const items = ref<MenuProps['items']>([
+<script setup lang="ts">
+import { computed, h, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { type MenuProps, message } from 'ant-design-vue'
+import { useLoginUserStore } from '@/stores/loginUser.ts'
+import { userLogout } from '@/api/userController.ts'
+import { LogoutOutlined, HomeOutlined,UserOutlined } from '@ant-design/icons-vue'
+
+const loginUserStore = useLoginUserStore()
+const router = useRouter()
+// 当前选中菜单
+const selectedKeys = ref<string[]>(['/'])
+// 监听路由变化，更新当前选中菜单
+router.afterEach((to, from, next) => {
+  selectedKeys.value = [to.path]
+})
+
+// 菜单配置项
+const originItems = [
   {
     key: '/',
     icon: () => h(HomeOutlined),
@@ -74,74 +79,84 @@ const items = ref<MenuProps['items']>([
     title: '主页',
   },
   {
-    key: '/about',
-    label: '关于',
-    title: '关于',
-  },
-  {
     key: '/admin/userManage',
     label: '用户管理',
     title: '用户管理',
   },
-])
+  {
+    key: '/admin/appManage',
+    label: '应用管理',
+    title: '应用管理',
+  },
 
-//提供应该迅速跳转到其他页面的方法
-const router = useRouter()
+]
 
-// 路由跳转事件
-//function({ item, key, keyPath })
-const doMenuClick = ({ key }) => {
-  //实现页面跳转
-  //跳转到需要的 key 页面
-  router.push({ path: key })
+// 过滤菜单项
+const filterMenus = (menus = [] as MenuProps['items']) => {
+  return menus?.filter((menu) => {
+    const menuKey = menu?.key as string
+    if (menuKey?.startsWith('/admin')) {
+      const loginUser = loginUserStore.loginUser
+      if (!loginUser || loginUser.userRole !== 'admin') {
+        return false
+      }
+    }
+    return true
+  })
 }
-// 通过 const current = ref<string[]>(['home']) 来决定高亮
-//设置自动高亮某个所在的页面
-// 使用钩子
-const current = ref<string[]>([])
 
-/* 钩子函数
- * 作用: 每次跳转到新页面时, 都会执行
- * 参数: 要去哪个页面,  从哪个页面来的,  接下来要去哪个页面
- * */
-router.afterEach((to, from, next) => {
-  /*将current 的值改为接下来要跳转的页面*/
-  current.value = [to.path]
-})
+// 展示在菜单的路由数组
+const menuItems = computed<MenuProps['items']>(() => filterMenus(originItems))
 
-//用户注销
-const doLogout = async () => {
-  const res = await userLogout()
-  if (res.data.code == 0) {
-    //清理登录态
-    loginUserStore.setLoginUser({
-      userName: '未登录',
-    })
-    message.success('退出登录')
-    //重新返回主页页面
-    router.push({
-      path: '/',
-    })
-  } else {
-    message.error('注销失败' + res.data.message)
+// 处理菜单点击
+const handleMenuClick: MenuProps['onClick'] = (e) => {
+  const key = e.key as string
+  selectedKeys.value = [key]
+  // 跳转到对应页面
+  if (key.startsWith('/')) {
+    router.push(key)
   }
 }
 
-/*样式*/
+// 退出登录
+const doLogout = async () => {
+  const res = await userLogout()
+  if (res.data.code === 0) {
+    loginUserStore.setLoginUser({
+      userName: '未登录',
+    })
+    message.success('退出登录成功')
+    await router.push('/user/login')
+  } else {
+    message.error('退出登录失败，' + res.data.message)
+  }
+}
 </script>
+
 <style scoped>
-.title-bar {
-  display: flex;
-  align-items: center;
+.header {
+  background: #fff;
+  padding: 0 24px;
 }
 
-.title {
-  color: black;
-  font-size: 18px;
-  margin-left: 15px;
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .logo {
   height: 48px;
+  width: 48px;
+}
+
+.site-title {
+  margin: 0;
+  font-size: 18px;
+  color: #1890ff;
+}
+
+.ant-menu-horizontal {
+  border-bottom: none !important;
 }
 </style>

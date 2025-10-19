@@ -49,7 +49,7 @@
 
 import { reactive } from 'vue'
 import { userRegister } from '@/api/userController.ts'
-import { useLoginUserStore } from '@/stores/useLoginUserStore.ts'
+import { useLoginUserStore } from '@/stores/loginUser.ts'
 import { message } from 'ant-design-vue'
 import router from '@/router'
 
@@ -97,7 +97,7 @@ const handleSubmit = async (values: any) => {
 <style scoped>
 #userRegisterPage {
   max-width: 360px;
-  margin: 0 auto;
+  margin: 16px auto;
 }
 .title {
   text-align: center;
