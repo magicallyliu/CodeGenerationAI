@@ -16,8 +16,10 @@ import com.liuh.codegenerationbackend.model.VO.app.AppVO;
 import com.liuh.codegenerationbackend.model.VO.user.UserVO;
 import com.liuh.codegenerationbackend.model.dto.app.AppQueryRequest;
 import com.liuh.codegenerationbackend.model.entity.User;
+import com.liuh.codegenerationbackend.model.enums.ChatHistoryMessageTypeEnum;
 import com.liuh.codegenerationbackend.model.enums.CodeGenTypeEnum;
 import com.liuh.codegenerationbackend.service.AppService;
+import com.liuh.codegenerationbackend.service.ChatHistoryService;
 import com.liuh.codegenerationbackend.service.UserService;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
@@ -25,9 +27,11 @@ import com.liuh.codegenerationbackend.model.entity.App;
 import com.liuh.codegenerationbackend.mapper.AppMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionTemplate;
 import reactor.core.publisher.Flux;
 
 import java.io.File;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,12 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
 
     @Resource
     private AiCodeGeneratorFacade aiCodeGeneratorFacade;
+
+    @Resource
+    private ChatHistoryService chatHistoryService;
+
+    @Resource
+    private TransactionTemplate transactionTemplate;
 
     @Override
     public QueryWrapper getQueryWrapper(AppQueryRequest appQueryRequest) {
@@ -133,8 +143,29 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         CodeGenTypeEnum codeGenTypeEnum = CodeGenTypeEnum.getEnumByValue(codeGenType);
         ThrowUtils.throwIf(ObjUtil.isNull(codeGenTypeEnum), ErrorCode.PARAMS_ERROR, "应用类型错误");
 
-        //5. 调用 AI 生成代码
-        return aiCodeGeneratorFacade.generateSaveCodeStream(message, codeGenTypeEnum, app.getId());
+        //5. 在调用ai生成代码之前, 保存用户消息到数据库中
+        boolean addChatMessage = chatHistoryService.addChatMessage(appId, message, ChatHistoryMessageTypeEnum.USER.getValue(), loginUser);
+        ThrowUtils.throwIf(!addChatMessage, ErrorCode.SYSTEM_ERROR, "保存用户消息失败");
+
+        //6. 调用 AI 生成代码(流式)
+        Flux<String> contentFlux = aiCodeGeneratorFacade.generateSaveCodeStream(message, codeGenTypeEnum, app.getId());
+
+        //7. 搜集 AI 响应的内容, 并且在完成对话后, 保存到对话历史中
+        //拼接器
+        StringBuilder aiResponseBuilder = new StringBuilder();
+        return contentFlux.map(content -> {
+            //实时搜集响应的内容
+            aiResponseBuilder.append(content);
+            return content;
+        }).doOnComplete(() -> {
+            //流式返回结束后, 保存对话记忆
+            boolean addChatMessageResult = chatHistoryService.addChatMessage(appId, aiResponseBuilder.toString(),
+                    ChatHistoryMessageTypeEnum.AI.getValue(), loginUser);
+        }).doOnError(error -> {
+            //即使流式返回失败, 也需要将消息记录到数据库中
+            String errorMessage = "AI 回复消息失败" + error.getMessage();
+            chatHistoryService.addChatMessage(appId, errorMessage, ChatHistoryMessageTypeEnum.AI.getValue(), loginUser);
+        });
     }
 
     @Override
@@ -159,7 +190,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
             while (true) {
                 deployKey = RandomUtil.randomString(6);
                 //查询是否已经存在
-                App existApp = this.getOne( QueryWrapper.create().eq("deployKey", deployKey));
+                App existApp = this.getOne(QueryWrapper.create().eq("deployKey", deployKey));
                 if (ObjUtil.isNull(existApp)) {
                     //不存在, 则可以生成
                     break;
@@ -197,5 +228,42 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
 
         //9. 生成可访问的 url 地址
         return String.format("%s/%s", AppConstant.CODE_DEPLOY_HOST, deployKey);
+    }
+
+    /**
+     * 根据数据主键删除数据。
+     * 形参:
+     * id – 数据主键
+     * 返回值:
+     * true 删除成功，false 删除失败。
+     * <p>
+     * 覆盖方法,  删除应用时, 需要删除应用下的所有对话历史
+     *
+     * @param id 应用id
+     * @return true 删除成功，false 删除失败。
+     */
+    @Override
+    public boolean removeById(Serializable id) {
+        //使用事务删除
+        //1. 判断
+        //转换格式
+        //关联删除应用
+        return Boolean.TRUE.equals(transactionTemplate.execute(status -> {
+            //1. 判断
+            if (ObjUtil.isNull(id)) {
+                return false;
+            }
+            //转换格式
+            long appId = Long.parseLong(id.toString());
+            if (appId <= 0) {
+                return false;
+            }
+            //关联删除应用
+            boolean chatDeleteResult = chatHistoryService.deleteByAppId(appId);
+            if (!chatDeleteResult) {
+                return false;
+            }
+            return super.removeById(id);
+        }));
     }
 }

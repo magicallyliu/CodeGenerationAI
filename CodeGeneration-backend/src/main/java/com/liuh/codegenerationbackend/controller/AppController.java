@@ -50,6 +50,12 @@ public class AppController {
     private UserService userService;
 
     /**
+     * 随机应用封面 setCover
+     */
+    private final String  COVER_URL = "https://picsum.photos/400/300";
+
+
+    /**
      * 用户通过聊天生成代码 -- 流式
      *
      * @param appId   应用id
@@ -124,6 +130,8 @@ public class AppController {
         app.setAppName(initPrompt.substring(0, Math.min(initPrompt.length(), 12)));
         // TODO 暂时设置为多文件生成
         app.setCodeGenType(CodeGenTypeEnum.MULTI_FILE.getValue());
+        // TODO 设置随机封面 -- 暂时
+        app.setCover(COVER_URL);
         // 插入数据库
         boolean result = appService.save(app);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);

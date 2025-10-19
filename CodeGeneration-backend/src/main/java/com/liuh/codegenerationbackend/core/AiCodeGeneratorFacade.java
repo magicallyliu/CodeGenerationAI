@@ -2,6 +2,7 @@ package com.liuh.codegenerationbackend.core;
 
 import cn.hutool.core.util.ObjUtil;
 import com.liuh.codegenerationbackend.ai.AiCodeGeneratorService;
+import com.liuh.codegenerationbackend.ai.AiCodeGeneratorServiceFactory;
 import com.liuh.codegenerationbackend.ai.model.HtmlCodeResult;
 import com.liuh.codegenerationbackend.ai.model.MultiFileCodeResult;
 import com.liuh.codegenerationbackend.core.parser.CodeParserExector;
@@ -26,7 +27,7 @@ import java.io.File;
 public class AiCodeGeneratorFacade {
 
     @Resource
-    private AiCodeGeneratorService aiCodeGeneratorService;
+    private AiCodeGeneratorServiceFactory aiCodeGeneratorServiceFactory;
 
 
     /**
@@ -42,6 +43,8 @@ public class AiCodeGeneratorFacade {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "代码生成类型不能为空");
         }
 
+        //根据新的appId获取对应的AI服务
+        AiCodeGeneratorService aiCodeGeneratorService = aiCodeGeneratorServiceFactory.getAiCodeGeneratorService(appId);
         //根据类型生成并保存代码
         return switch (codeGenTypeEnum) {
             case CodeGenTypeEnum.HTML -> {
@@ -76,6 +79,9 @@ public class AiCodeGeneratorFacade {
         if (ObjUtil.isEmpty(codeGenTypeEnum)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "代码生成类型不能为空");
         }
+
+        //根据新的appId获取对应的AI服务
+        AiCodeGeneratorService aiCodeGeneratorService = aiCodeGeneratorServiceFactory.getAiCodeGeneratorService(appId);
 
         //根据类型生成/解析/并保存代码
         return switch (codeGenTypeEnum) {

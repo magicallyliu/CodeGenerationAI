@@ -20,8 +20,6 @@ import java.util.List;
 public interface AppService extends IService<App> {
 
 
-
-
     /**
      * 构造应用查询条件
      *
@@ -49,18 +47,21 @@ public interface AppService extends IService<App> {
 
     /**
      * 通过聊天生成应用代码
-     * @param appId  应用id
-     * @param message  当前聊天的用户提示词
-     * @param loginUser  登录用户
+     *
+     * @param appId     应用id
+     * @param message   当前聊天的用户提示词
+     * @param loginUser 登录用户
      * @return
      */
     Flux<String> chatToGenCode(Long appId, String message, User loginUser);
 
     /**
      * 应用部署
-     *  @param appId  应用id
-     * @param loginUser  登录用户
+     *
+     * @param appId     应用id
+     * @param loginUser 登录用户
      * @return 返回部署的地址
      */
     String deployApp(Long appId, User loginUser);
 }
+
