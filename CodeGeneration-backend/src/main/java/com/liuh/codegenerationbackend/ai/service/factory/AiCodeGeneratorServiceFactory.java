@@ -3,7 +3,7 @@ package com.liuh.codegenerationbackend.ai.service.factory;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.liuh.codegenerationbackend.ai.service.AiCodeGeneratorService;
-import com.liuh.codegenerationbackend.ai.tools.FileWriteTool;
+import com.liuh.codegenerationbackend.ai.tools.*;
 import com.liuh.codegenerationbackend.model.enums.CodeGenTypeEnum;
 import com.liuh.codegenerationbackend.service.ChatHistoryService;
 import dev.langchain4j.community.store.memory.chat.redis.RedisChatMemoryStore;
@@ -51,6 +51,10 @@ public class AiCodeGeneratorServiceFactory {
 
     @Resource
     private ChatHistoryService chatHistoryService;
+
+    @Resource
+    private ToolManager toolManager;
+
     /**
      * AI 服务实例缓存
      * 缓存策略：
@@ -90,7 +94,7 @@ public class AiCodeGeneratorServiceFactory {
     public AiCodeGeneratorService getAiCodeGeneratorService(long appId, CodeGenTypeEnum codeGenTypeEnum) {
         //设置缓存的key\
         String cacheKey = buildCacheKey(appId, codeGenTypeEnum);
-        return serviceCache.get(cacheKey, key ->  createAiCodeGeneratorService(appId, codeGenTypeEnum));
+        return serviceCache.get(cacheKey, key -> createAiCodeGeneratorService(appId, codeGenTypeEnum));
     }
 
     /**
@@ -122,7 +126,7 @@ public class AiCodeGeneratorServiceFactory {
                     .chatMemoryProvider(memoryId -> chatMemory.withMaxMessages(55))
                     //设置ai连续调用工具的上线, 超过上线会强制结束
                     .maxSequentialToolsInvocations(100)
-                    .tools(new FileWriteTool())
+                    .tools(toolManager.getAllTools())
                     .hallucinatedToolNameStrategy(toolExecutionRequest ->
                             ToolExecutionResultMessage.from(toolExecutionRequest,
                                     "Error: there is no tool called " + toolExecutionRequest.name())
@@ -140,12 +144,13 @@ public class AiCodeGeneratorServiceFactory {
     }
 
     /**
-     *  根据 appId 和 代码生成类型, 获取缓存key
+     * 根据 appId 和 代码生成类型, 获取缓存key
+     *
      * @param appId
      * @param codeGenTypeEnum
      * @return
      */
-    private String buildCacheKey(Long  appId, CodeGenTypeEnum codeGenTypeEnum) {
+    private String buildCacheKey(Long appId, CodeGenTypeEnum codeGenTypeEnum) {
         return appId + "_" + codeGenTypeEnum.name();
     }
 
