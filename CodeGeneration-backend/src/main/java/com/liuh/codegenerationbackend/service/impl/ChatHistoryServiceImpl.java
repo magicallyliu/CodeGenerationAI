@@ -25,6 +25,8 @@ import jakarta.validation.constraints.Size;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,8 +36,9 @@ import java.util.List;
  *
  * @author <a href="https://github.com/magicallyliu">liuh</a>
  */
-@Service
 @Slf4j
+@RestController
+@RequestMapping("/chatHistory")
 public class ChatHistoryServiceImpl extends ServiceImpl<ChatHistoryMapper, ChatHistory> implements ChatHistoryService {
 
     @Resource

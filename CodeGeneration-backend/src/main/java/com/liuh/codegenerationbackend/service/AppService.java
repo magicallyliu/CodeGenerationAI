@@ -3,6 +3,7 @@ package com.liuh.codegenerationbackend.service;
 import cn.hutool.core.bean.BeanUtil;
 import com.liuh.codegenerationbackend.model.VO.app.AppVO;
 import com.liuh.codegenerationbackend.model.VO.user.UserVO;
+import com.liuh.codegenerationbackend.model.dto.app.AppAddRequest;
 import com.liuh.codegenerationbackend.model.dto.app.AppQueryRequest;
 import com.liuh.codegenerationbackend.model.entity.User;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -19,6 +20,14 @@ import java.util.List;
  */
 public interface AppService extends IService<App> {
 
+
+    /**
+     * 创建App
+     * @param appAddRequest 创建应用的请求
+     * @param loginUser  登录用户
+     * @return  应用id
+     */
+    Long addApp(AppAddRequest appAddRequest, User loginUser);
 
     /**
      * 构造应用查询条件
@@ -63,5 +72,14 @@ public interface AppService extends IService<App> {
      * @return 返回部署的地址
      */
     String deployApp(Long appId, User loginUser);
+
+    /**
+     * 异步生成应用截图并更新封面
+     * @param appId appId
+     * @param appDeployUrl 需要截图的网站地址
+     */
+    void generateAppScreenshot(Long appId, String appDeployUrl);
+
+
 }
 

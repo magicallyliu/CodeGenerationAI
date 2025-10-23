@@ -7,27 +7,36 @@ import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import com.liuh.codegenerationbackend.ai.service.AiCodeGenTypeRoutingService;
+import com.liuh.codegenerationbackend.ai.service.AiCodeGeneratorTitleService;
 import com.liuh.codegenerationbackend.constant.AppConstant;
 import com.liuh.codegenerationbackend.core.AiCodeGeneratorFacade;
+import com.liuh.codegenerationbackend.core.builder.VueProjectBuilder;
+import com.liuh.codegenerationbackend.core.handler.StreamHandlerExecutor;
 import com.liuh.codegenerationbackend.exception.BusinessException;
 import com.liuh.codegenerationbackend.exception.ErrorCode;
 import com.liuh.codegenerationbackend.exception.ThrowUtils;
 import com.liuh.codegenerationbackend.model.VO.app.AppVO;
 import com.liuh.codegenerationbackend.model.VO.user.UserVO;
+import com.liuh.codegenerationbackend.model.dto.app.AppAddRequest;
 import com.liuh.codegenerationbackend.model.dto.app.AppQueryRequest;
 import com.liuh.codegenerationbackend.model.entity.User;
 import com.liuh.codegenerationbackend.model.enums.ChatHistoryMessageTypeEnum;
 import com.liuh.codegenerationbackend.model.enums.CodeGenTypeEnum;
-import com.liuh.codegenerationbackend.service.AppService;
-import com.liuh.codegenerationbackend.service.ChatHistoryService;
-import com.liuh.codegenerationbackend.service.UserService;
+import com.liuh.codegenerationbackend.service.*;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.liuh.codegenerationbackend.model.entity.App;
 import com.liuh.codegenerationbackend.mapper.AppMapper;
 import jakarta.annotation.Resource;
-import org.springframework.stereotype.Service;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 import java.io.File;
@@ -44,7 +53,9 @@ import java.util.stream.Collectors;
  *
  * @author <a href="https://github.com/magicallyliu">liuh</a>
  */
-@Service
+@Slf4j
+@RestController
+@RequestMapping("/app")
 public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppService {
 
     @Resource
@@ -58,6 +69,48 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
 
     @Resource
     private TransactionTemplate transactionTemplate;
+
+    @Resource
+    private StreamHandlerExecutor streamHandlerExecutor;
+
+    @Resource
+    private VueProjectBuilder vueProjectBuilder;
+
+    @Resource
+    private ScreenshotService screenshotService;
+
+
+    @Resource
+    private AiCodeGenTypeRoutingService aiCodeGenTypeRoutingService;
+
+    @Resource
+    private AiCodeGeneratorTitleService aiCodeGeneratorTitleService;
+
+    @Resource
+    private ProjectDownloadServiceImpl projectDownloadService;
+
+    @Override
+    public Long addApp(AppAddRequest appAddRequest, User loginUser) {
+        // 参数校验
+        String initPrompt = appAddRequest.getInitPrompt();
+        ThrowUtils.throwIf(StrUtil.isBlank(initPrompt), ErrorCode.PARAMS_ERROR, "初始化 prompt 不能为空");
+
+        // 构造入库对象
+        App app = new App();
+        BeanUtil.copyProperties(appAddRequest, app);
+        app.setUserId(loginUser.getId());
+        // 根据ai智能生成应用名称
+        String generateTitle = aiCodeGeneratorTitleService.generateTitle(initPrompt);
+        app.setAppName(generateTitle);
+        // 使用ai智能选择代码生成类型
+        CodeGenTypeEnum codeGenTypeEnum = aiCodeGenTypeRoutingService.routeCodeGenType(initPrompt);
+        app.setCodeGenType(codeGenTypeEnum.getValue());
+        // 插入数据库
+        boolean result = this.save(app);
+        ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
+        return  app.getId();
+    }
+
 
     @Override
     public QueryWrapper getQueryWrapper(AppQueryRequest appQueryRequest) {
@@ -151,21 +204,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         Flux<String> contentFlux = aiCodeGeneratorFacade.generateSaveCodeStream(message, codeGenTypeEnum, app.getId());
 
         //7. 搜集 AI 响应的内容, 并且在完成对话后, 保存到对话历史中
-        //拼接器
-        StringBuilder aiResponseBuilder = new StringBuilder();
-        return contentFlux.map(content -> {
-            //实时搜集响应的内容
-            aiResponseBuilder.append(content);
-            return content;
-        }).doOnComplete(() -> {
-            //流式返回结束后, 保存对话记忆
-            boolean addChatMessageResult = chatHistoryService.addChatMessage(appId, aiResponseBuilder.toString(),
-                    ChatHistoryMessageTypeEnum.AI.getValue(), loginUser);
-        }).doOnError(error -> {
-            //即使流式返回失败, 也需要将消息记录到数据库中
-            String errorMessage = "AI 回复消息失败" + error.getMessage();
-            chatHistoryService.addChatMessage(appId, errorMessage, ChatHistoryMessageTypeEnum.AI.getValue(), loginUser);
-        });
+        return streamHandlerExecutor.doExecute(contentFlux, chatHistoryService, appId, loginUser, codeGenTypeEnum);
     }
 
     @Override
@@ -210,6 +249,21 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "应用代码不存在, 请先生成应用");
         }
 
+
+        //7.-1 vue项目特殊处理, 执行构建
+        //将代码类型转化为枚举
+        CodeGenTypeEnum codeGenTypeEnum = CodeGenTypeEnum.getEnumByValue(codeGenType);
+        if (CodeGenTypeEnum.VUE_PROJECT.equals(codeGenTypeEnum)) {
+            //执行构建
+            boolean buildProject = vueProjectBuilder.buildProject(dirUrl);
+            ThrowUtils.throwIf(!buildProject, ErrorCode.SYSTEM_ERROR, "应用部署失败, 请重新尝试");
+            //需要将构建后的文件复制到部署目录
+            // 检查 dist 目录是否存在
+            File distDir = new File(dirUrl, "dist");
+            ThrowUtils.throwIf(!distDir.exists(), ErrorCode.SYSTEM_ERROR, "Vue 项目构建完成但未生成 dist 目录");
+            // 构建完成后，需要将构建后的文件复制到部署目录
+            dirFile = distDir;
+        }
         //7. 复制文件到部署目录
         String deployDirUrl = AppConstant.CODE_DEPLOY_ROOT_DIR + File.separator + deployKey;
         try {
@@ -217,6 +271,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         } catch (IORuntimeException e) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "应用部署失败");
         }
+
 
         //8. 更新数据库的部署相关内容
         App updateApp = new App();
@@ -227,8 +282,33 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         ThrowUtils.throwIf(!updateResult, ErrorCode.OPERATION_ERROR, "更新应用部署信息失败");
 
         //9. 生成可访问的 url 地址
-        return String.format("%s/%s", AppConstant.CODE_DEPLOY_HOST, deployKey);
+        String appDeployUrl = String.format("%s/%s", AppConstant.CODE_DEPLOY_HOST, deployKey);
+
+        //10 异步生成截图 , 更新应用封面
+        generateAppScreenshot(appId, appDeployUrl);
+
+        //11. 返回部署地址
+        return appDeployUrl;
+
     }
+
+    /**
+     * 异步生成截图
+     */
+    @Override
+    public void generateAppScreenshot(Long appId, String appDeployUrl) {
+        Thread.startVirtualThread(() -> {
+            //截图
+            String screenshotUrl = screenshotService.generateAndUploadScreenshot(appDeployUrl);
+            //更新应用封面
+            App updateApp = new App();
+            updateApp.setId(appId);
+            updateApp.setCover(screenshotUrl);
+            boolean updateResult = this.updateById(updateApp);
+            ThrowUtils.throwIf(!updateResult, ErrorCode.OPERATION_ERROR, "更新应用封面失败");
+        });
+    }
+
 
     /**
      * 根据数据主键删除数据。
@@ -266,4 +346,41 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
             return super.removeById(id);
         }));
     }
+
+
+    /**
+     * 下载应用代码
+     *
+     * @param appId    应用ID
+     * @param request  请求
+     * @param response 响应
+     */
+    @GetMapping("/download/{appId}")
+    public void downloadAppCode(@PathVariable Long appId,
+                                HttpServletRequest request,
+                                HttpServletResponse response) {
+        // 1. 基础校验
+        ThrowUtils.throwIf(ObjUtil.isNull(appId) || appId <= 0, ErrorCode.PARAMS_ERROR, "应用ID无效");
+        // 2. 查询应用信息
+        App app = getById(appId);
+        ThrowUtils.throwIf(ObjUtil.isNull(app), ErrorCode.NOT_FOUND_ERROR, "应用不存在");
+        // 3. 权限校验：只有应用创建者可以下载代码
+        User loginUser = userService.getLoginUser(request);
+        if (!app.getUserId().equals(loginUser.getId())) {
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "无权限下载该应用代码");
+        }
+        // 4. 构建应用代码目录路径（生成目录，非部署目录）
+        String codeGenType = app.getCodeGenType();
+        String sourceDirName = codeGenType + "_" + appId;
+        String sourceDirPath = AppConstant.CODE_OUTPUT_ROOT_DIR + File.separator + sourceDirName;
+        // 5. 检查代码目录是否存在
+        File sourceDir = new File(sourceDirPath);
+        ThrowUtils.throwIf(!sourceDir.exists() || !sourceDir.isDirectory(),
+                ErrorCode.NOT_FOUND_ERROR, "应用代码不存在，请先生成代码");
+        // 6. 生成下载文件名（不建议添加中文内容）
+        String downloadFileName = String.valueOf(appId);
+        // 7. 调用通用下载服务
+        projectDownloadService.downloadProjectAsZip(sourceDirPath, downloadFileName, response);
+    }
+
 }

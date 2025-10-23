@@ -22,6 +22,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +34,9 @@ import java.util.stream.Collectors;
  *
  * @author <a href="https://github.com/magicallyliu">liuh</a>
  */
-@Service
 @Slf4j
+@RestController
+@RequestMapping("/user")
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
 

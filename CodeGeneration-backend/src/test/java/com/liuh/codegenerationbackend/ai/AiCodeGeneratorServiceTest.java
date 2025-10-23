@@ -2,6 +2,7 @@ package com.liuh.codegenerationbackend.ai;
 
 import com.liuh.codegenerationbackend.ai.model.HtmlCodeResult;
 import com.liuh.codegenerationbackend.ai.model.MultiFileCodeResult;
+import com.liuh.codegenerationbackend.ai.service.AiCodeGeneratorService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

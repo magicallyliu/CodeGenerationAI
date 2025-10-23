@@ -1,15 +1,26 @@
 package com.liuh.codegenerationbackend.core;
 
 import cn.hutool.core.util.ObjUtil;
-import com.liuh.codegenerationbackend.ai.AiCodeGeneratorService;
-import com.liuh.codegenerationbackend.ai.AiCodeGeneratorServiceFactory;
+import cn.hutool.json.JSONUtil;
+import com.liuh.codegenerationbackend.ai.service.AiCodeGeneratorService;
+import com.liuh.codegenerationbackend.ai.service.factory.AiCodeGeneratorServiceFactory;
 import com.liuh.codegenerationbackend.ai.model.HtmlCodeResult;
 import com.liuh.codegenerationbackend.ai.model.MultiFileCodeResult;
+import com.liuh.codegenerationbackend.ai.model.message.AiResponseMessage;
+import com.liuh.codegenerationbackend.ai.model.message.PartialThinkingMessage;
+import com.liuh.codegenerationbackend.ai.model.message.ToolExecutedMessage;
+import com.liuh.codegenerationbackend.ai.model.message.ToolRequestMessage;
+import com.liuh.codegenerationbackend.config.JsonConfig;
 import com.liuh.codegenerationbackend.core.parser.CodeParserExector;
 import com.liuh.codegenerationbackend.core.save.CodeFileSaveExector;
 import com.liuh.codegenerationbackend.exception.BusinessException;
 import com.liuh.codegenerationbackend.exception.ErrorCode;
 import com.liuh.codegenerationbackend.model.enums.CodeGenTypeEnum;
+import dev.langchain4j.model.chat.response.ChatResponse;
+import dev.langchain4j.model.chat.response.PartialThinking;
+import dev.langchain4j.service.TokenStream;
+import dev.langchain4j.service.tool.BeforeToolExecution;
+import dev.langchain4j.service.tool.ToolExecution;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,6 +40,9 @@ public class AiCodeGeneratorFacade {
     @Resource
     private AiCodeGeneratorServiceFactory aiCodeGeneratorServiceFactory;
 
+    @Resource
+    private JsonConfig jsonConfig;
+
 
     /**
      * 门面的入口, 根据类型生成并保存代码
@@ -44,7 +58,7 @@ public class AiCodeGeneratorFacade {
         }
 
         //根据新的appId获取对应的AI服务
-        AiCodeGeneratorService aiCodeGeneratorService = aiCodeGeneratorServiceFactory.getAiCodeGeneratorService(appId);
+        AiCodeGeneratorService aiCodeGeneratorService = aiCodeGeneratorServiceFactory.getAiCodeGeneratorService(appId, codeGenTypeEnum);
         //根据类型生成并保存代码
         return switch (codeGenTypeEnum) {
             case CodeGenTypeEnum.HTML -> {
@@ -81,7 +95,7 @@ public class AiCodeGeneratorFacade {
         }
 
         //根据新的appId获取对应的AI服务
-        AiCodeGeneratorService aiCodeGeneratorService = aiCodeGeneratorServiceFactory.getAiCodeGeneratorService(appId);
+        AiCodeGeneratorService aiCodeGeneratorService = aiCodeGeneratorServiceFactory.getAiCodeGeneratorService(appId, codeGenTypeEnum);
 
         //根据类型生成/解析/并保存代码
         return switch (codeGenTypeEnum) {
@@ -94,6 +108,10 @@ public class AiCodeGeneratorFacade {
                 Flux<String> codeStream = aiCodeGeneratorService.generateMultiFileCodeStream(userMessage);
                 yield processCodeStream(codeStream, CodeGenTypeEnum.MULTI_FILE, appId);
             }
+            case CodeGenTypeEnum.VUE_PROJECT -> {
+                TokenStream tokenStream = aiCodeGeneratorService.generateVueProjectCodeStream(appId, userMessage);
+                yield processTokenStream(tokenStream);
+            }
             default -> {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "不支持该类型的代码生成: " + codeGenTypeEnum.getValue());
             }
@@ -102,8 +120,49 @@ public class AiCodeGeneratorFacade {
     }
 
     /**
+     * 将tokenStream 转换为 Flux<String>
+     *
+     * @param tokenStream
+     * @return
+     */
+    private Flux<String> processTokenStream(TokenStream tokenStream) {
+        //使用ai返回的tokenStream流, 构造一条流
+        return Flux.create(sink -> {
+            tokenStream.onPartialResponse((String partialResponse) -> {
+                        AiResponseMessage aiResponseMessage = new AiResponseMessage(partialResponse);
+                        sink.next(JSONUtil.toJsonStr(aiResponseMessage));
+                    })
+                    //ai深度思考
+                    .onPartialThinking((PartialThinking partialThinking) -> {
+                        PartialThinkingMessage partialThinkingMessage = new PartialThinkingMessage(partialThinking);
+                        sink.next(JSONUtil.toJsonStr(partialThinkingMessage));
+                    })
+                    //ai工具调用
+                    .beforeToolExecution((BeforeToolExecution beforeToolExecution) -> {
+                        ToolRequestMessage toolRequestMessage = new ToolRequestMessage(beforeToolExecution);
+                        sink.next(JSONUtil.toJsonStr(toolRequestMessage));
+                    })
+                    //工具执行结果
+                    .onToolExecuted((ToolExecution toolExecution) -> {
+                        ToolExecutedMessage toolExecutedMessage = new ToolExecutedMessage(toolExecution);
+                        sink.next(JSONUtil.toJsonStr(toolExecutedMessage));
+                    })
+                    //结束流的创建
+                    .onCompleteResponse((ChatResponse response) -> {
+                        sink.complete();
+                    })
+                    .onError((Throwable error) -> {
+                        error.printStackTrace();
+                        sink.error(error);
+                    })
+                    .start();//开始监听
+        });
+    }
+
+
+    /**
      * 生成并保存代码(抽象出公共逻辑) -- 流式()
-     * HTML/多文件
+     * HTML/多文件/vue工程
      *
      * @param codeStream      代码流
      * @param codeGenTypeEnum 代码生成类型

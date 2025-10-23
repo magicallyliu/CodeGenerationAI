@@ -4,6 +4,8 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import com.liuh.codegenerationbackend.ai.service.AiCodeGenTypeRoutingService;
+import com.liuh.codegenerationbackend.ai.service.AiCodeGeneratorTitleService;
 import com.liuh.codegenerationbackend.annotation.AuthCheck;
 import com.liuh.codegenerationbackend.common.BaseResponse;
 import com.liuh.codegenerationbackend.common.DeleteRequest;
@@ -48,6 +50,9 @@ public class AppController {
 
     @Resource
     private UserService userService;
+
+
+
 
     /**
      * 随机应用封面 setCover
@@ -117,25 +122,10 @@ public class AppController {
     @PostMapping("/add")
     public BaseResponse<Long> addApp(@RequestBody AppAddRequest appAddRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(ObjUtil.isNull(appAddRequest), ErrorCode.PARAMS_ERROR);
-        // 参数校验
-        String initPrompt = appAddRequest.getInitPrompt();
-        ThrowUtils.throwIf(StrUtil.isBlank(initPrompt), ErrorCode.PARAMS_ERROR, "初始化 prompt 不能为空");
-        // 获取当前登录用户
+
         User loginUser = userService.getLoginUser(request);
-        // 构造入库对象
-        App app = new App();
-        BeanUtil.copyProperties(appAddRequest, app);
-        app.setUserId(loginUser.getId());
-        // TODO 应用名称暂时为 initPrompt 前 12 位
-        app.setAppName(initPrompt.substring(0, Math.min(initPrompt.length(), 12)));
-        // TODO 暂时设置为多文件生成
-        app.setCodeGenType(CodeGenTypeEnum.MULTI_FILE.getValue());
-        // TODO 设置随机封面 -- 暂时
-        app.setCover(COVER_URL);
-        // 插入数据库
-        boolean result = appService.save(app);
-        ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-        return ResultUtils.success(app.getId());
+        Long addAppId = appService.addApp(appAddRequest, loginUser);
+        return ResultUtils.success(addAppId);
     }
 
     /**

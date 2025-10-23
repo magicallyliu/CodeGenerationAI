@@ -12,13 +12,7 @@ spring:
     store-type: redis
     # session 30 天过期
     timeout: 2592000
-  data:
-    redis:
-      host: 119.91.37.107
-      port: 6379
-      password: 8tmWjt2ZpWYr5y7P # Redis 密码
-      ttl: 3600  #存在时间
-       # application.yml
+
 #      激活本地环境
   profiles:
     active: local
