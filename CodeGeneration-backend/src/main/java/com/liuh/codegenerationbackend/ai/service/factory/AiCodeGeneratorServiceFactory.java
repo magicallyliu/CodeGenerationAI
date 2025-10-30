@@ -114,6 +114,7 @@ public class AiCodeGeneratorServiceFactory {
                 .chatMemoryStore(redisChatMemoryStore) // redis配置信息
                 .maxMessages(20)
                 .build();
+
         //从数据库中获取历史记录, 加载到对话记忆中
         chatHistoryService.loadChatHistoryToMemory(appId, chatMemory, 20);
 

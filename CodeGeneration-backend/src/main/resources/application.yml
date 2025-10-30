@@ -12,7 +12,6 @@ spring:
     store-type: redis
     # session 30 天过期
     timeout: 2592000
-
 #      激活本地环境
   profiles:
     active: local
