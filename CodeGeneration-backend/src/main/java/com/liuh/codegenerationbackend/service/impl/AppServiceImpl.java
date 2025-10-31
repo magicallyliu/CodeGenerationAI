@@ -9,6 +9,8 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.liuh.codegenerationbackend.ai.service.AiCodeGenTypeRoutingService;
 import com.liuh.codegenerationbackend.ai.service.AiCodeGeneratorTitleService;
+import com.liuh.codegenerationbackend.ai.service.factory.AiCodeGenTypeRoutingServiceFactory;
+import com.liuh.codegenerationbackend.ai.service.factory.AiCodeGeneratorTitleServiceFactory;
 import com.liuh.codegenerationbackend.constant.AppConstant;
 import com.liuh.codegenerationbackend.core.AiCodeGeneratorFacade;
 import com.liuh.codegenerationbackend.core.builder.VueProjectBuilder;
@@ -81,10 +83,10 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
 
 
     @Resource
-    private AiCodeGenTypeRoutingService aiCodeGenTypeRoutingService;
+    private AiCodeGenTypeRoutingServiceFactory aiCodeGenTypeRoutingServiceFactory;
 
     @Resource
-    private AiCodeGeneratorTitleService aiCodeGeneratorTitleService;
+    private AiCodeGeneratorTitleServiceFactory aiCodeGeneratorTitleServiceFactory;
 
     @Resource
     private ProjectDownloadServiceImpl projectDownloadService;
@@ -100,9 +102,13 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         BeanUtil.copyProperties(appAddRequest, app);
         app.setUserId(loginUser.getId());
         // 根据ai智能生成应用名称
+        //每次调用使用新的AiCodeGeneratorTitleService，实现多例
+        AiCodeGeneratorTitleService aiCodeGeneratorTitleService = aiCodeGeneratorTitleServiceFactory.createAiCodeGeneratorTitleService();
         String generateTitle = aiCodeGeneratorTitleService.generateTitle(initPrompt);
         app.setAppName(generateTitle);
         // 使用ai智能选择代码生成类型
+        //每次调用使用新的AiCodeGenTypeRoutingService，实现多例
+        AiCodeGenTypeRoutingService aiCodeGenTypeRoutingService = aiCodeGenTypeRoutingServiceFactory.createAiCodeGenTypeRoutingService();
         CodeGenTypeEnum codeGenTypeEnum = aiCodeGenTypeRoutingService.routeCodeGenType(initPrompt);
         app.setCodeGenType(codeGenTypeEnum.getValue());
         // 插入数据库

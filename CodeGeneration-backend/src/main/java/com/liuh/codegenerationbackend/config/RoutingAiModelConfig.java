@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 /**
- *  @Description 路由判断模型配置
+ *  @Description 路由判断模型配置（多例模式） //添加标题
  */
 
 @Configuration
@@ -27,24 +27,24 @@ public class RoutingAiModelConfig {
 
     private Double temperature;
 
-    private Boolean logRequests = false;
+    private Boolean logRequests;
 
-    private Boolean logResponses = false;
+    private Boolean logResponses;
 
-//    /**
-//     * 创建用于路由判断的ChatModel
-//     */
-//    @Bean
-//    @Scope("prototype")
-//    public ChatModel routingChatModelPrototype() {
-//        return OpenAiChatModel.builder()
-//                .apiKey(apiKey)
-//                .modelName(modelName)
-//                .baseUrl(baseUrl)
-//                .maxTokens(maxTokens)
-//                .temperature(temperature)
-//                .logRequests(logRequests)
-//                .logResponses(logResponses)
-//                .build();
-//    }
+    /**
+     * 创建用于路由判断的ChatModel // 添加标题
+     */
+    @Bean
+    @Scope("prototype")
+    public ChatModel routingChatModelPrototype() {
+        return OpenAiChatModel.builder()
+                .apiKey(apiKey)
+                .modelName(modelName)
+                .baseUrl(baseUrl)
+                .maxTokens(maxTokens)
+                .temperature(temperature)
+                .logRequests(logRequests)
+                .logResponses(logResponses)
+                .build();
+    }
 }

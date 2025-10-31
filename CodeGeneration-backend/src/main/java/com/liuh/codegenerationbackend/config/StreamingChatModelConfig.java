@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 /**
- * @Description 流式对话模型配置
+ * @Description 流式对话模型配置(多例模式)
  */
 
 @SuppressWarnings("all")

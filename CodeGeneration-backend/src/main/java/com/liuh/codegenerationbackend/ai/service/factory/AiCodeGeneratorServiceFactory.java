@@ -6,6 +6,7 @@ import com.liuh.codegenerationbackend.ai.service.AiCodeGeneratorService;
 import com.liuh.codegenerationbackend.ai.tools.*;
 import com.liuh.codegenerationbackend.model.enums.CodeGenTypeEnum;
 import com.liuh.codegenerationbackend.service.ChatHistoryService;
+import com.liuh.codegenerationbackend.utils.SpringContextUtil;
 import dev.langchain4j.community.store.memory.chat.redis.RedisChatMemoryStore;
 import dev.langchain4j.data.message.ToolExecutionResultMessage;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -29,22 +30,10 @@ public class AiCodeGeneratorServiceFactory {
 
     /**
      * 选用的ai模型
+     *采用默认的模型
      */
-    @Resource
+    @Resource(name = "openAiChatModel")
     private ChatModel chatModel;
-
-    /**
-     * 流式的ai模型
-     */
-    @Resource
-    private StreamingChatModel openAiStreamingChatModel;
-
-    /**
-     * 推理流式模型(vue项目生成)
-     */
-    @Resource
-    private StreamingChatModel reasoningStreamingChatModel;
-
 
     @Resource
     private RedisChatMemoryStore redisChatMemoryStore;
@@ -119,29 +108,41 @@ public class AiCodeGeneratorServiceFactory {
         chatHistoryService.loadChatHistoryToMemory(appId, chatMemory, 20);
 
         return switch (codeGenTypeEnum) {
-            case VUE_PROJECT -> AiServices.builder(AiCodeGeneratorService.class)
-                    .chatModel(chatModel)
-                    .streamingChatModel(reasoningStreamingChatModel)
-                    //根据不同的对话id, 创建不同的对话记忆//但是此处仅为ai调用时传入的appId服务, 不为创建对话服务
-                    //因为 ai 生成工具时, 以会话记忆的形式返回历史成功, 所有需要将会话记忆上线增加, 防止出现 重新生成代码
-                    .chatMemoryProvider(memoryId -> chatMemory.withMaxMessages(55))
-                    //设置ai连续调用工具的上线, 超过上线会强制结束
-                    .maxSequentialToolsInvocations(100)
-                    .tools(toolManager.getAllTools())
-                    .hallucinatedToolNameStrategy(toolExecutionRequest ->
-                            ToolExecutionResultMessage.from(toolExecutionRequest,
-                                    "Error: there is no tool called " + toolExecutionRequest.name())
-                    )//当ai出现幻觉时, 会调用此方法. 即ai想调用其他工具时, 让ai重新执行, 放弃不存在的工具的调用
-                    .build();
+            case VUE_PROJECT -> {
+                //获取模型的bean(StreamingChatModel), 每次调用使用新的, 以解决并发问题
 
-            case HTML, MULTI_FILE -> AiServices.builder(AiCodeGeneratorService.class)
-                    .chatModel(chatModel)
-                    .streamingChatModel(openAiStreamingChatModel)
-                    .chatMemory(chatMemory)//对应不同app设置不同的对话记忆
-                    .build();
+                StreamingChatModel reasoningStreamingChatModelPrototype = SpringContextUtil.getBean("reasoningStreamingChatModelPrototype", StreamingChatModel.class);
+                yield AiServices.builder(AiCodeGeneratorService.class)
+
+                        .chatModel(chatModel)
+                        //每次调用都使用新的chatModel对象
+                        .streamingChatModel(reasoningStreamingChatModelPrototype)
+                        //根据不同的对话id, 创建不同的对话记忆//但是此处仅为ai调用时传入的appId服务, 不为创建对话服务
+                        //因为 ai 生成工具时, 以会话记忆的形式返回历史成功, 所有需要将会话记忆上线增加, 防止出现 重新生成代码
+                        .chatMemoryProvider(memoryId -> chatMemory.withMaxMessages(55))
+                        //设置ai连续调用工具的上线, 超过上线会强制结束
+                        .maxSequentialToolsInvocations(100)
+                        .tools(toolManager.getAllTools())
+                        .hallucinatedToolNameStrategy(toolExecutionRequest ->
+                                ToolExecutionResultMessage.from(toolExecutionRequest,
+                                        "Error: there is no tool called " + toolExecutionRequest.name())
+                        )//当ai出现幻觉时, 会调用此方法. 即ai想调用其他工具时, 让ai重新执行, 放弃不存在的工具的调用
+                        .build();
+            }
+
+
+            case HTML, MULTI_FILE -> {
+                //获取模型的bean(StreamingChatModel), 每次调用使用新的, 以解决并发问题
+                StreamingChatModel streamingChatModelPrototype = SpringContextUtil.getBean("streamingChatModelPrototype", StreamingChatModel.class);
+                yield AiServices.builder(AiCodeGeneratorService.class)
+                        .chatModel(chatModel)
+                        //采用新的chatModel对象
+                        .streamingChatModel(streamingChatModelPrototype)
+                        .chatMemory(chatMemory)//对应不同app设置不同的对话记忆
+                        .build();
+            }
 
         };
-
     }
 
     /**

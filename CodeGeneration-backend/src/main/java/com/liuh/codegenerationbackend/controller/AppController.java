@@ -145,7 +145,7 @@ public class AppController {
         // 判断是否存在
         App oldApp = appService.getById(id);
         ThrowUtils.throwIf(ObjUtil.isNull(oldApp), ErrorCode.NOT_FOUND_ERROR);
-        // TODO 6+ 仅本人可更新
+        // 仅本人可更新
         if (!oldApp.getUserId().equals(loginUser.getId())) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
