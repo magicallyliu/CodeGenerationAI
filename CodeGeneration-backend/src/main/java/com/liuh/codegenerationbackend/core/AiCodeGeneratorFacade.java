@@ -58,10 +58,7 @@ public class AiCodeGeneratorFacade {
         }
 
         //根据新的appId获取对应的AI服务
-        //TODO 测试
-        log.info("开始创建ai服务");
         AiCodeGeneratorService aiCodeGeneratorService = aiCodeGeneratorServiceFactory.getAiCodeGeneratorService(appId, codeGenTypeEnum);
-        log.info("ai服务创建成功");
         //根据类型生成并保存代码
         return switch (codeGenTypeEnum) {
             case CodeGenTypeEnum.HTML -> {

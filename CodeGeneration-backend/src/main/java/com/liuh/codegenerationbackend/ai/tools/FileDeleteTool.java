@@ -78,6 +78,7 @@ public class FileDeleteTool extends BaseTool{
 
     @Override
     public String getToolName() {
+
         return "deleteFile";
     }
 

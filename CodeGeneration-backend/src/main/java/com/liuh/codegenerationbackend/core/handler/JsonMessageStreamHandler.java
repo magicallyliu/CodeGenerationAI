@@ -70,6 +70,7 @@ public class JsonMessageStreamHandler {
                     String projectPath = AppConstant.CODE_OUTPUT_ROOT_DIR + "/vue_project_" + appId;
                     vueProjectBuilder.buildProjectAsync(projectPath);
                 }).doOnError(error -> {
+                    log.error("流式返回失败: {}", error.getMessage());
                     //即使流式返回失败, 也需要将消息记录到数据库中
                     String errorMessage = "AI 回复消息失败" + error.getMessage();
                     chatHistoryService.addChatMessage(appId, errorMessage, ChatHistoryMessageTypeEnum.AI.getValue(), loginUser);
@@ -111,8 +112,7 @@ public class JsonMessageStreamHandler {
             //工具调用的消息, 需要判断是否为第一次调用
             //不需要将工具的信息返回
             case TOOL_REQUEST -> {
-                //TODO
-                log.info("开始工具调用");
+
                 //工具调用消息
                 ToolRequestMessage toolRequestMessage = JSONUtil.toBean(chunk, ToolRequestMessage.class);
                 //获取工具的id
@@ -120,12 +120,10 @@ public class JsonMessageStreamHandler {
                 //判断是否为第一次调用
                 if (StrUtil.isNotBlank(toolId) && !seenTools.contains(toolId)) {
                     //第一调用该工具, 记录该功能并返回信息
-                    //TODO  保存工具调用信息
-                    log.info("第一次调用工具: {}", toolId);
+
                     seenTools.add(toolId);
                     //返回消息
                     BaseTool tool = toolManager.getTool(toolRequestMessage.getName());
-                    log.info("工具调用成功: {}", toolRequestMessage.getName());
                     return tool.generateToolRequestResponse();
                 } else {
                     //非第一次调用, 直接返回空字符串

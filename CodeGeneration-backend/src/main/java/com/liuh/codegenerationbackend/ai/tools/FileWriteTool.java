@@ -67,7 +67,7 @@ public class FileWriteTool extends  BaseTool{
 
     @Override
     public String getToolName() {
-        return "writeFile";
+        return "write";
     }
 
     @Override
