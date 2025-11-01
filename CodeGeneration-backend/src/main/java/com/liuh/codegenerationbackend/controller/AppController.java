@@ -20,10 +20,12 @@ import com.liuh.codegenerationbackend.model.dto.app.*;
 import com.liuh.codegenerationbackend.model.entity.User;
 import com.liuh.codegenerationbackend.model.enums.CodeGenTypeEnum;
 import com.liuh.codegenerationbackend.service.UserService;
+import com.liuh.codegenerationbackend.utils.CacheKeyUtils;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.*;
@@ -233,6 +235,14 @@ public class AppController {
      * @return 精选应用列表
      */
     @PostMapping("/good/list/page/vo")
+    //使用缓存(注解)
+    @Cacheable(
+            value = "good_app_page",
+            //生成key的规则
+            key = "T(com.liuh.codegenerationbackend.utils.CacheKeyUtils).generateKey(#appQueryRequest)",
+            //缓存条件(只缓存前10页)
+            condition = "#appQueryRequest.pageNum <= 10"
+    )
     public BaseResponse<Page<AppVO>> listGoodAppVOByPage(@RequestBody AppQueryRequest appQueryRequest) {
         ThrowUtils.throwIf(appQueryRequest == null, ErrorCode.PARAMS_ERROR);
         // 限制每页最多 20 个

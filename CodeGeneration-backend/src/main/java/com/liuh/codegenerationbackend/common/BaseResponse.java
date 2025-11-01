@@ -2,10 +2,12 @@ package com.liuh.codegenerationbackend.common;
 
 import com.liuh.codegenerationbackend.exception.ErrorCode;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data
+@NoArgsConstructor//无参构造器
 public class BaseResponse<T> implements Serializable {
 
     private int code;
