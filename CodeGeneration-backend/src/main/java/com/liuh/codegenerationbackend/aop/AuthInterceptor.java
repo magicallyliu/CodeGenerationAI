@@ -43,6 +43,8 @@ public class AuthInterceptor {
     /**
      * 执行拦截, 环绕拦截 需要authCheck注解才会启动
      * 通过注解输入此时需要的权限
+     * Around环绕拦截器
+     *
      *
      * @param pjp       切入点
      * @param authCheck 权限效验注解

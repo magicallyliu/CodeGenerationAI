@@ -20,11 +20,15 @@ import com.liuh.codegenerationbackend.model.dto.app.*;
 import com.liuh.codegenerationbackend.model.entity.User;
 import com.liuh.codegenerationbackend.model.enums.CodeGenTypeEnum;
 import com.liuh.codegenerationbackend.service.UserService;
+import com.liuh.codegenerationbackend.tatelimter.annotation.RateLimit;
+import com.liuh.codegenerationbackend.tatelimter.aop.RateLimitAop;
+import com.liuh.codegenerationbackend.tatelimter.enums.RateLimitType;
 import com.liuh.codegenerationbackend.utils.CacheKeyUtils;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
@@ -60,6 +64,8 @@ public class AppController {
      * 随机应用封面 setCover
      */
     private final String  COVER_URL = "https://picsum.photos/400/300";
+    @Autowired
+    private RateLimitAop rateLimitAop;
 
 
     /**
@@ -71,6 +77,7 @@ public class AppController {
      * @return 代码生成结果
      */
     @GetMapping(value = "chat/gen/code", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @RateLimit(limitType =  RateLimitType.USER,rate = 6, rateInterval = 60,message =  "AI对话请求过于频繁，请稍后再试")
     public Flux<ServerSentEvent<String>> chatToGenCode(@RequestParam Long appId, @RequestParam String message, HttpServletRequest request) {
         //效验参数
         ThrowUtils.throwIf(ObjUtil.isNull(appId) || appId <= 0, ErrorCode.PARAMS_ERROR);
