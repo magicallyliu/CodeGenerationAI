@@ -2,6 +2,7 @@ package com.liuh.codegenerationbackend.ai.service.factory;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.liuh.codegenerationbackend.ai.guardrail.PromptSafetyInputGuardrail;
 import com.liuh.codegenerationbackend.ai.service.AiCodeGeneratorService;
 import com.liuh.codegenerationbackend.ai.tools.*;
 import com.liuh.codegenerationbackend.model.enums.CodeGenTypeEnum;
@@ -127,6 +128,8 @@ public class AiCodeGeneratorServiceFactory {
                                 ToolExecutionResultMessage.from(toolExecutionRequest,
                                         "Error: there is no tool called " + toolExecutionRequest.name())
                         )//当ai出现幻觉时, 会调用此方法. 即ai想调用其他工具时, 让ai重新执行, 放弃不存在的工具的调用
+                        //使用护轨 -- 自定义的护轨规则
+                        .inputGuardrails(new PromptSafetyInputGuardrail())
                         .build();
             }
 
@@ -139,6 +142,8 @@ public class AiCodeGeneratorServiceFactory {
                         //采用新的chatModel对象
                         .streamingChatModel(streamingChatModelPrototype)
                         .chatMemory(chatMemory)//对应不同app设置不同的对话记忆
+                        //使用护轨 -- 自定义的护轨规则
+                        .inputGuardrails(new PromptSafetyInputGuardrail())
                         .build();
             }
 
