@@ -1,14 +1,11 @@
 package com.liuh.codegenerationbackend.core.handler;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.liuh.codegenerationbackend.ai.model.message.*;
 import com.liuh.codegenerationbackend.ai.tools.BaseTool;
 import com.liuh.codegenerationbackend.ai.tools.ToolManager;
-import com.liuh.codegenerationbackend.constant.AppConstant;
-import com.liuh.codegenerationbackend.core.builder.VueProjectBuilder;
 import com.liuh.codegenerationbackend.model.entity.User;
 import com.liuh.codegenerationbackend.model.enums.ChatHistoryMessageTypeEnum;
 import com.liuh.codegenerationbackend.service.ChatHistoryService;
@@ -29,8 +26,7 @@ import java.util.HashSet;
 @Component
 public class JsonMessageStreamHandler {
 
-    @Resource
-    private VueProjectBuilder vueProjectBuilder;
+
 
     @Resource
     private ToolManager toolManager;
@@ -65,10 +61,7 @@ public class JsonMessageStreamHandler {
                     chatHistoryService.addChatMessage(appId, chatHistoryStringBuilder.toString(),
                             ChatHistoryMessageTypeEnum.AI.getValue(), loginUser);
 
-                    //当所有的流式返回后, 执行构建流程
-                    //TODO 暂时使用异步构造
-                    String projectPath = AppConstant.CODE_OUTPUT_ROOT_DIR + "/vue_project_" + appId;
-                    vueProjectBuilder.buildProjectAsync(projectPath);
+
                 }).doOnError(error -> {
                     log.error("流式返回失败: {}", error.getMessage());
                     //即使流式返回失败, 也需要将消息记录到数据库中

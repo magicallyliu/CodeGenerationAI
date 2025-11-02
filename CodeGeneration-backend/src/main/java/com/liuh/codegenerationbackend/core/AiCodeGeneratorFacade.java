@@ -11,6 +11,8 @@ import com.liuh.codegenerationbackend.ai.model.message.PartialThinkingMessage;
 import com.liuh.codegenerationbackend.ai.model.message.ToolExecutedMessage;
 import com.liuh.codegenerationbackend.ai.model.message.ToolRequestMessage;
 import com.liuh.codegenerationbackend.config.JsonConfig;
+import com.liuh.codegenerationbackend.constant.AppConstant;
+import com.liuh.codegenerationbackend.core.builder.VueProjectBuilder;
 import com.liuh.codegenerationbackend.core.parser.CodeParserExector;
 import com.liuh.codegenerationbackend.core.save.CodeFileSaveExector;
 import com.liuh.codegenerationbackend.exception.BusinessException;
@@ -41,7 +43,7 @@ public class AiCodeGeneratorFacade {
     private AiCodeGeneratorServiceFactory aiCodeGeneratorServiceFactory;
 
     @Resource
-    private JsonConfig jsonConfig;
+    private VueProjectBuilder  vueProjectBuilder;
 
 
     /**
@@ -110,7 +112,7 @@ public class AiCodeGeneratorFacade {
             }
             case CodeGenTypeEnum.VUE_PROJECT -> {
                 TokenStream tokenStream = aiCodeGeneratorService.generateVueProjectCodeStream(appId, userMessage);
-                yield processTokenStream(tokenStream);
+                yield processTokenStream(tokenStream, appId);
             }
             default -> {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "不支持该类型的代码生成: " + codeGenTypeEnum.getValue());
@@ -125,7 +127,7 @@ public class AiCodeGeneratorFacade {
      * @param tokenStream
      * @return
      */
-    private Flux<String> processTokenStream(TokenStream tokenStream) {
+    private Flux<String> processTokenStream(TokenStream tokenStream, Long appId) {
         //使用ai返回的tokenStream流, 构造一条流
         return Flux.create(sink -> {
             tokenStream.onPartialResponse((String partialResponse) -> {
@@ -149,6 +151,10 @@ public class AiCodeGeneratorFacade {
                     })
                     //结束流的创建
                     .onCompleteResponse((ChatResponse response) -> {
+                        //当所有的流式返回后, 执行构建流程
+                        //使用同步打包
+                        String projectPath = AppConstant.CODE_OUTPUT_ROOT_DIR + "/vue_project_" + appId;
+                        vueProjectBuilder.buildProject(projectPath);
                         sink.complete();
                     })
                     .onError((Throwable error) -> {
