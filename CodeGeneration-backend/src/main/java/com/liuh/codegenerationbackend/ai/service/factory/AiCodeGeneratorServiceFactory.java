@@ -3,6 +3,7 @@ package com.liuh.codegenerationbackend.ai.service.factory;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.liuh.codegenerationbackend.ai.guardrail.PromptSafetyInputGuardrail;
+import com.liuh.codegenerationbackend.ai.guardrail.RetryOutputGuardrail;
 import com.liuh.codegenerationbackend.ai.service.AiCodeGeneratorService;
 import com.liuh.codegenerationbackend.ai.tools.*;
 import com.liuh.codegenerationbackend.model.enums.CodeGenTypeEnum;
@@ -10,6 +11,7 @@ import com.liuh.codegenerationbackend.service.ChatHistoryService;
 import com.liuh.codegenerationbackend.utils.SpringContextUtil;
 import dev.langchain4j.community.store.memory.chat.redis.RedisChatMemoryStore;
 import dev.langchain4j.data.message.ToolExecutionResultMessage;
+import dev.langchain4j.guardrail.config.OutputGuardrailsConfig;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;
@@ -108,6 +110,11 @@ public class AiCodeGeneratorServiceFactory {
         //从数据库中获取历史记录, 加载到对话记忆中
         chatHistoryService.loadChatHistoryToMemory(appId, chatMemory, 20);
 
+        //设置护轨重试次数为3次
+        OutputGuardrailsConfig outputGuardrailsConfig = OutputGuardrailsConfig.builder()
+                .maxRetries(3)
+                .build();
+
         return switch (codeGenTypeEnum) {
             case VUE_PROJECT -> {
                 //获取模型的bean(StreamingChatModel), 每次调用使用新的, 以解决并发问题
@@ -130,6 +137,11 @@ public class AiCodeGeneratorServiceFactory {
                         )//当ai出现幻觉时, 会调用此方法. 即ai想调用其他工具时, 让ai重新执行, 放弃不存在的工具的调用
                         //使用护轨 -- 自定义的护轨规则
                         .inputGuardrails(new PromptSafetyInputGuardrail())
+                        //为保证流式输出, 不使用
+//                        //使用输出护轨--效验输出的内容是否合法
+//                        .outputGuardrails(new RetryOutputGuardrail())
+//                        //设置护轨重试次数为3次
+//                        .outputGuardrailsConfig(outputGuardrailsConfig)
                         .build();
             }
 
@@ -142,8 +154,12 @@ public class AiCodeGeneratorServiceFactory {
                         //采用新的chatModel对象
                         .streamingChatModel(streamingChatModelPrototype)
                         .chatMemory(chatMemory)//对应不同app设置不同的对话记忆
-                        //使用护轨 -- 自定义的护轨规则
+                        //使用输入护轨 -- 自定义的护轨规则
                         .inputGuardrails(new PromptSafetyInputGuardrail())
+//                        //使用输出护轨--效验输出的内容是否合法
+//                        .outputGuardrails(new RetryOutputGuardrail())
+//                        //设置护轨重试次数为3次
+//                        .outputGuardrailsConfig(outputGuardrailsConfig)
                         .build();
             }
 
