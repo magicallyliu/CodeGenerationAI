@@ -3,6 +3,90 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f681f1a2-0094-417e-9c12-a3289b806aac" name="更改" comment="微服务改造-服务接口模块&#10;&#10;内部访问接口">
+      <change afterPath="$PROJECT_DIR$/code-user/src/main/java/com/liuh/codeuser/aop/AuthInterceptor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code-user/src/main/java/com/liuh/codeuser/codeUserApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code-user/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-user/src/main/java/com/liuh/codeuser/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-user/src/main/java/com/liuh/codeuser/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-user/src/main/java/com/liuh/codeuser/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-user/src/main/java/com/liuh/codeuser/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/code-user/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-client/src/main/java/com/liuh/codegenerationbackend/innerservice/InnerScreenshotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-client/src/main/java/com/liuh/codeclient/innerservice/InnerScreenshotService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-client/src/main/java/com/liuh/codegenerationbackend/innerservice/InnerUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-client/src/main/java/com/liuh/codeclient/innerservice/InnerUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/annotation/AuthCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/annotation/AuthCheck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/common/BaseResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/common/BaseResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/common/DeleteRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/common/DeleteRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/common/PageRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/common/PageRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/common/ResultUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/common/ResultUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/config/CosClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/config/CosClientConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/config/JsonConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/config/JsonConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/constant/AppConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/constant/AppConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/constant/UserConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/constant/UserConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/exception/BusinessException.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/exception/BusinessException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/exception/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/exception/ErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/exception/ThrowUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/exception/ThrowUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/generator/MyBatisCodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/generator/MyBatisCodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/manager/CosManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/manager/CosManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/utils/CacheKeyUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/utils/CacheKeyUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codegenerationbackend/utils/SpringContextUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-common/src/main/java/com/liuh/codecommom/utils/SpringContextUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/VO/app/AppVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/VO/app/AppVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/VO/user/LoginUserVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/VO/user/LoginUserVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/VO/user/UserUpdateRequestVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/VO/user/UserUpdateRequestVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/VO/user/UserVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/VO/user/UserVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/dto/app/AddDeployRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/dto/app/AddDeployRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/dto/app/AppAddRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/dto/app/AppAddRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/dto/app/AppAdminUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/dto/app/AppAdminUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/dto/app/AppQueryRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/dto/app/AppQueryRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/dto/app/AppUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/dto/app/AppUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/dto/chatHistory/ChatHistoryQueryRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/dto/chatHistory/ChatHistoryQueryRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/dto/user/UserAddRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/dto/user/UserAddRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/dto/user/UserLoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/dto/user/UserLoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/dto/user/UserQueryRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/dto/user/UserQueryRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/dto/user/UserRegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/dto/user/UserRegisterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/dto/user/UserUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/dto/user/UserUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/entity/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/entity/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/entity/ChatHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/entity/ChatHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/enums/ChatHistoryMessageTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/enums/ChatHistoryMessageTypeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/enums/CodeGenTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/enums/CodeGenTypeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codegenerationbackend/model/enums/UserRoleEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-model/src/main/java/com/liuh/codemodel/model/enums/UserRoleEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/code-user/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;magicallyliu&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/magicallyliu/CodeGenerationAI.git&quot;,
+    &quot;accountId&quot;: &quot;4393f328-e100-41a9-a54d-f7263d052a08&quot;
+  }
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -12,9 +96,122 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;
-  }
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
 }</component>
+  <component name="ProjectId" id="34xzfyEHm5VUbmqkWHqLfcuhZIr" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Maven.CodeGeneration-microservices [package].executor": "Run",
+    "Maven.code-common [package].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.codeUserApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "J:/Project/PlanetProject/CodeGeneration/CodeGeneration-microservices/code-user/src/main/java/com/liuh/codegenerationbackend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="J:\Project\PlanetProject\CodeGeneration\CodeGeneration-microservices\code-user\src\main\java\com\liuh\codegenerationbackend" />
+      <recent name="J:\Project\PlanetProject\CodeGeneration\CodeGeneration-microservices\code-user\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="J:\Project\PlanetProject\CodeGeneration\CodeGeneration-microservices\code-user\src\main\resources\mapper" />
+      <recent name="J:\Project\PlanetProject\CodeGeneration\CodeGeneration-microservices" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="codeUserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="code-user" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.liuh.codeuser.codeUserApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.liuh.codeuser.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.codeUserApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19416.15" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19416.15" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="f681f1a2-0094-417e-9c12-a3289b806aac" name="更改" comment="" />
+      <created>1762170118562</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1762170118562</updated>
+      <workItem from="1762170119610" duration="3626000" />
+      <workItem from="1762173757772" duration="1186000" />
+    </task>
+    <task id="LOCAL-00001" summary="微服务改造-公共模块(补充)&#10;&#10;补充用户权限效验注解">
+      <option name="closed" value="true" />
+      <created>1762171172216</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1762171172216</updated>
+    </task>
+    <task id="LOCAL-00002" summary="微服务改造-数据模型模块&#10;&#10;用于前后端的各种数据请求">
+      <option name="closed" value="true" />
+      <created>1762171699310</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1762171699310</updated>
+    </task>
+    <task id="LOCAL-00003" summary="微服务改造-服务接口模块&#10;&#10;内部访问接口">
+      <option name="closed" value="true" />
+      <created>1762173362504</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1762173362504</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="微服务改造-公共模块(补充)&#10;&#10;补充用户权限效验注解" />
+    <MESSAGE value="微服务改造-数据模型模块&#10;&#10;用于前后端的各种数据请求" />
+    <MESSAGE value="微服务改造-服务接口模块&#10;&#10;内部访问接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="微服务改造-服务接口模块&#10;&#10;内部访问接口" />
+  </component>
 </project>

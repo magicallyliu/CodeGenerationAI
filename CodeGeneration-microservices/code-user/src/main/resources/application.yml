@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: CodeGeneration-microservices
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/CodeGeneration
+    username: root
+    password: root
+  # session 配置
+  session:
+    store-type: redis
+    # session 30 天过期
+    timeout: 2592000
+#      激活本地环境
+  profiles:
+    active: local
+
+server:
+  port: 8977
+  servlet:
+    context-path: /api
+    # cookie 30 天过期
+    session:
+      cookie:
+        max-age: 2592000
+
+
+# springdoc-openapi
+springdoc:
+  group-configs:
+    - group: 'default'
+      packages-to-scan: com.liuh.codegenerationbackend.controller
+
+# knife4j
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
