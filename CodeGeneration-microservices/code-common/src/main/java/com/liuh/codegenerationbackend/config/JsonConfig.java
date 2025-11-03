@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 /**
- * @Description  Spring MVC Json 配置
+ * @Description  Spring MVC Json 配置 (解决精度丢失问题)
 
  */
 @JsonComponent
