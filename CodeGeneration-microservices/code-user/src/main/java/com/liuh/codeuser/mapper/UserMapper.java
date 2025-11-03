@@ -1,7 +1,7 @@
 package com.liuh.codeuser.mapper;
 
 import com.mybatisflex.core.BaseMapper;
-import com.liuh.codemodel.model.entity.User;
+import com.liuh.codegenerationbackend.model.entity.User;
 
 /**
  * 用户 映射层。

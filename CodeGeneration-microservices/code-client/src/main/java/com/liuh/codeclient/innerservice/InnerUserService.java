@@ -1,17 +1,17 @@
 package com.liuh.codeclient.innerservice;
 
 import cn.hutool.core.util.ObjUtil;
-import com.liuh.codecommom.exception.BusinessException;
-import com.liuh.codecommom.exception.ErrorCode;
-import com.liuh.codemodel.model.VO.user.UserVO;
-import com.liuh.codemodel.model.entity.User;
+import com.liuh.codegenerationbackend.exception.BusinessException;
+import com.liuh.codegenerationbackend.exception.ErrorCode;
+import com.liuh.codegenerationbackend.model.VO.user.UserVO;
+import com.liuh.codegenerationbackend.model.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import static com.liuh.codecommom.constant.UserConstant.USER_LOGIN_STATE;
+import static com.liuh.codegenerationbackend.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
  *  @Description 内部服务类，用于内部调用

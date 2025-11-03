@@ -1,10 +1,10 @@
 package com.liuh.codeuser.service;
 
 
-import com.liuh.codemodel.model.VO.user.LoginUserVO;
-import com.liuh.codemodel.model.VO.user.UserVO;
-import com.liuh.codemodel.model.dto.user.UserQueryRequest;
-import com.liuh.codemodel.model.entity.User;
+import com.liuh.codegenerationbackend.model.VO.user.LoginUserVO;
+import com.liuh.codegenerationbackend.model.VO.user.UserVO;
+import com.liuh.codegenerationbackend.model.dto.user.UserQueryRequest;
+import com.liuh.codegenerationbackend.model.entity.User;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.service.IService;
 import jakarta.servlet.http.HttpServletRequest;

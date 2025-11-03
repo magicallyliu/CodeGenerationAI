@@ -1,10 +1,10 @@
 package com.liuh.codeuser.aop;
 
-import com.liuh.codecommom.annotation.AuthCheck;
-import com.liuh.codecommom.exception.BusinessException;
-import com.liuh.codecommom.exception.ErrorCode;
-import com.liuh.codemodel.model.entity.User;
-import com.liuh.codemodel.model.enums.UserRoleEnum;
+import com.liuh.codegenerationbackend.annotation.AuthCheck;
+import com.liuh.codegenerationbackend.exception.BusinessException;
+import com.liuh.codegenerationbackend.exception.ErrorCode;
+import com.liuh.codegenerationbackend.model.entity.User;
+import com.liuh.codegenerationbackend.model.enums.UserRoleEnum;
 import com.liuh.codeuser.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
