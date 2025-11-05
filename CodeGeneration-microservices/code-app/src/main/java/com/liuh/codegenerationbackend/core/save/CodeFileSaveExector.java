@@ -29,8 +29,8 @@ public class CodeFileSaveExector {
      */
     public static File executeSave(Object codeResult, CodeGenTypeEnum codeGenTypeEnum,  Long appId) {
         return switch (codeGenTypeEnum) {
-            case CodeGenTypeEnum.HTML -> HTML_CODE_FILE_SAVER_TEMPLATE.saveCode((HtmlCodeResult) codeResult,appId);
-            case CodeGenTypeEnum.MULTI_FILE -> MULTI_FILE_CODE_FILE_SAVER_TEMPLATE.saveCode((MultiFileCodeResult) codeResult,  appId);
+            case HTML -> HTML_CODE_FILE_SAVER_TEMPLATE.saveCode((HtmlCodeResult) codeResult,appId);
+            case MULTI_FILE -> MULTI_FILE_CODE_FILE_SAVER_TEMPLATE.saveCode((MultiFileCodeResult) codeResult,  appId);
             default -> throw new BusinessException(ErrorCode.SYSTEM_ERROR,  "不支持该类型的代码保存: " + codeGenTypeEnum.getValue());
         };
     }

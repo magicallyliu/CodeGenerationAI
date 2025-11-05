@@ -41,3 +41,16 @@ logging:
   charset:
     console: utf-8
     file: UTF-8
+
+# Dubbo
+dubbo:
+  registry:
+    address: nacos://127.0.0.1:8848?username=nacos&password=nacos
+    register-mode: instance
+  protocol:
+    name: tri
+    port: 9978
+  consumer:
+    timeout: 120000
+  provider:
+    timeout: 120000

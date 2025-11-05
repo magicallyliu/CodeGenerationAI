@@ -29,7 +29,9 @@ import com.liuh.codegenerationbackend.model.dto.app.AppQueryRequest;
 import com.liuh.codegenerationbackend.model.entity.User;
 import com.liuh.codegenerationbackend.model.enums.ChatHistoryMessageTypeEnum;
 import com.liuh.codegenerationbackend.model.enums.CodeGenTypeEnum;
+
 import java.lang.Thread;
+
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.liuh.codegenerationbackend.model.entity.App;
@@ -38,6 +40,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,8 +68,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/app")
 public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppService {
 
-    @Resource
-    @Lazy
+    @DubboReference
     private InnerUserService userService;
 
     @Resource
@@ -84,8 +86,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
     @Resource
     private VueProjectBuilder vueProjectBuilder;
 
-    @Resource
-    @Lazy
+    @DubboReference
     private InnerScreenshotService screenshotService;
 
 
@@ -121,7 +122,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         // 插入数据库
         boolean result = this.save(app);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-        return  app.getId();
+        return app.getId();
     }
 
 

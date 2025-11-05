@@ -87,7 +87,7 @@ public class JsonMessageStreamHandler {
         //根据消息类型, 进行不同的处理
         switch (typeEnum) {
             //ai思考的消息, 直接拼接
-            case StreamMessageTypeEnum.PARTIAL_THINKING -> {
+            case PARTIAL_THINKING -> {
                 PartialThinkingMessage partialThinkingMessage = JSONUtil.toBean(chunk, PartialThinkingMessage.class);
                 String thinkingMessageTxt = partialThinkingMessage.getTxt();
                 //添加消息
@@ -95,7 +95,7 @@ public class JsonMessageStreamHandler {
                 return thinkingMessageTxt;
             }
             //AI响应的消息, 直接拼接
-            case StreamMessageTypeEnum.AI_RESPONSE -> {
+            case AI_RESPONSE -> {
                 AiResponseMessage aiResponseMessage = JSONUtil.toBean(chunk, AiResponseMessage.class);
                 String aiResponseMessageTxt = aiResponseMessage.getData();
                 //添加消息
@@ -104,7 +104,7 @@ public class JsonMessageStreamHandler {
             }
             //工具调用的消息, 需要判断是否为第一次调用
             //不需要将工具的信息返回
-            case StreamMessageTypeEnum.TOOL_REQUEST -> {
+            case TOOL_REQUEST -> {
 
                 //工具调用消息
                 ToolRequestMessage toolRequestMessage = JSONUtil.toBean(chunk, ToolRequestMessage.class);
@@ -125,7 +125,7 @@ public class JsonMessageStreamHandler {
 
             }
             //工具调用完成后, 返回工具调用结果
-            case StreamMessageTypeEnum.TOOL_EXECUTED -> {
+            case TOOL_EXECUTED -> {
                 ToolExecutedMessage toolExecutedMessage = JSONUtil.toBean(chunk, ToolExecutedMessage.class);
                 //获取工具调用信息参数, 并转换为JSONObject 格式
                 JSONObject jsonObject = JSONUtil.parseObj(toolExecutedMessage.getArguments());

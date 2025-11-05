@@ -229,7 +229,7 @@ public class AppController {
             //生成key的规则
             key = "T(com.liuh.codegenerationbackend.utils.CacheKeyUtils).generateKey(#appQueryRequest)",
             //缓存条件(只缓存前10页)
-            condition = "#appQueryRequest.pageNum <= 10"
+            unless = "#appQueryRequest.pageNum <= 10"
     )
     public BaseResponse<Page<AppVO>> listGoodAppVOByPage(@RequestBody AppQueryRequest appQueryRequest) {
         ThrowUtils.throwIf(appQueryRequest == null, ErrorCode.PARAMS_ERROR);

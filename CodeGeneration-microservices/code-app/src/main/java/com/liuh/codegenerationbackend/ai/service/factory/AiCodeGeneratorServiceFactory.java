@@ -115,7 +115,7 @@ public class AiCodeGeneratorServiceFactory {
                 .build();
 
         return switch (codeGenTypeEnum) {
-            case CodeGenTypeEnum.VUE_PROJECT -> {
+            case VUE_PROJECT -> {
                 //获取模型的bean(StreamingChatModel), 每次调用使用新的, 以解决并发问题
 
                 StreamingChatModel reasoningStreamingChatModelPrototype = SpringContextUtil.getBean("reasoningStreamingChatModelPrototype", StreamingChatModel.class);
@@ -145,7 +145,7 @@ public class AiCodeGeneratorServiceFactory {
             }
 
 
-            case CodeGenTypeEnum.HTML, CodeGenTypeEnum.MULTI_FILE -> {
+            case HTML, MULTI_FILE -> {
                 //获取模型的bean(StreamingChatModel), 每次调用使用新的, 以解决并发问题
                 StreamingChatModel streamingChatModelPrototype = SpringContextUtil.getBean("streamingChatModelPrototype", StreamingChatModel.class);
                 yield AiServices.builder(AiCodeGeneratorService.class)

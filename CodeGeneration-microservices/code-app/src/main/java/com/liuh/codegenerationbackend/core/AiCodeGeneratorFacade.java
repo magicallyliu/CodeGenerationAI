@@ -62,14 +62,14 @@ public class AiCodeGeneratorFacade {
         AiCodeGeneratorService aiCodeGeneratorService = aiCodeGeneratorServiceFactory.getAiCodeGeneratorService(appId, codeGenTypeEnum);
         //根据类型生成并保存代码
         return switch (codeGenTypeEnum) {
-            case CodeGenTypeEnum.HTML -> {
+            case HTML -> {
                 //调用ai生成
                 HtmlCodeResult htmlCodeResult = aiCodeGeneratorService.generateHtmlCode(userMessage);
                 //保存代码
                 yield CodeFileSaveExector.executeSave(htmlCodeResult, codeGenTypeEnum, appId);
             }
 
-            case CodeGenTypeEnum.MULTI_FILE -> {
+            case MULTI_FILE -> {
                 //调用ai生成
                 MultiFileCodeResult multiFileCodeResult = aiCodeGeneratorService.generateMultiFileCode(userMessage);
                 //保存代码
@@ -100,16 +100,16 @@ public class AiCodeGeneratorFacade {
 
         //根据类型生成/解析/并保存代码
         return switch (codeGenTypeEnum) {
-            case CodeGenTypeEnum.HTML -> {
+            case HTML -> {
                 Flux<String> codeStream = aiCodeGeneratorService.generateHtmlCodeStream(userMessage);
                 yield processCodeStream(codeStream, CodeGenTypeEnum.HTML, appId);
             }
 
-            case CodeGenTypeEnum.MULTI_FILE -> {
+            case MULTI_FILE -> {
                 Flux<String> codeStream = aiCodeGeneratorService.generateMultiFileCodeStream(userMessage);
                 yield processCodeStream(codeStream, CodeGenTypeEnum.MULTI_FILE, appId);
             }
-            case CodeGenTypeEnum.VUE_PROJECT -> {
+            case VUE_PROJECT -> {
                 TokenStream tokenStream = aiCodeGeneratorService.generateVueProjectCodeStream(appId, userMessage);
                 yield processTokenStream(tokenStream, appId);
             }

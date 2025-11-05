@@ -22,8 +22,8 @@ public class CodeParserExector {
      */
     public static Object executeParser(String  codeContent, CodeGenTypeEnum  codeGenTypeEnum) {
         return switch (codeGenTypeEnum) {
-            case CodeGenTypeEnum.HTML ->  HTML_CODE_PARSER.parseCode(codeContent);
-            case CodeGenTypeEnum.MULTI_FILE ->  MULTI_FILE_CODE_PARSER.parseCode(codeContent);
+            case HTML ->  HTML_CODE_PARSER.parseCode(codeContent);
+            case MULTI_FILE ->  MULTI_FILE_CODE_PARSER.parseCode(codeContent);
             default -> throw new BusinessException(ErrorCode.SYSTEM_ERROR,  "不支持该类型的代码解析: " + codeGenTypeEnum.getValue());
         };
     }

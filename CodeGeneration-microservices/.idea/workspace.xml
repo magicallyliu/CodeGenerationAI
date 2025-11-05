@@ -4,57 +4,57 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f681f1a2-0094-417e-9c12-a3289b806aac" name="更改" comment="微服务改造-服务接口模块&#10;&#10;内部访问接口">
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/CodeAppApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/aop/AuthInterceptor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/config/RedisCacheManagerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/AiCodeGeneratorFacade.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/CodeFileSaver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/CodeParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/builder/VueProjectBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/handler/JsonMessageStreamHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/handler/SimpleTextStreamHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/handler/StreamHandlerExecutor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/parser/CodeParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/parser/CodeParserExector.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/parser/HtmlCodeParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/parser/MultiFileCodeParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/save/CodeFileSaveExector.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/save/CodeFileSaveTemplate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/save/HtmlCodeFileSaverTemplate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/save/MultiCodeFileSaverTemplate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/mapper/AppMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/mapper/ChatHistoryMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/ratelimter/annotation/RateLimit.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/ratelimter/aop/RateLimitAop.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/ratelimter/config/RedissonConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/ratelimter/enums/RateLimitType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/service/AppService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/service/ChatHistoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/service/ProjectDownloadService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/service/impl/AppServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/service/impl/ChatHistoryServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/service/impl/ProjectDownloadServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/resources/mapper/AppMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-app/src/main/resources/mapper/ChatHistoryMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/code-client/src/main/java/com/liuh/codegenerationbackend/innerservice/InnerScreenshotService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/CodeGenerationBackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/CodeGenerationBackendApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/ai/service/factory/AiCodeGenTypeRoutingServiceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/ai/service/factory/AiCodeGenTypeRoutingServiceFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/ai/service/factory/AiCodeGeneratorServiceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/ai/service/factory/AiCodeGeneratorServiceFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/ai/service/factory/AiCodeGeneratorTitleServiceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/ai/service/factory/AiCodeGeneratorTitleServiceFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/aop/AuthInterceptor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/controller/AppController.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/controller/AppController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/controller/ChatHistoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/controller/ChatHistoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/controller/HealthController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/controller/StaticResourceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/controller/StaticResourceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="f681f1a2-0094-417e-9c12-a3289b806aac" name="更改" comment="微服务改造-应用模块">
+      <change afterPath="$PROJECT_DIR$/code-screenshot/src/main/java/com/liuh/codegenerationbackend/CodeScreenshotApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code-screenshot/src/main/java/com/liuh/codegenerationbackend/service/impl/InnerScreenshotServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code-screenshot/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/code-user/src/main/java/com/liuh/codeuser/service/impl/InnerUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/AiCodeGeneratorFacade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/CodeFileSaver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/CodeParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/builder/VueProjectBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/handler/JsonMessageStreamHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/handler/SimpleTextStreamHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/handler/StreamHandlerExecutor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/parser/CodeParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/parser/CodeParserExector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/parser/HtmlCodeParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/parser/MultiFileCodeParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/save/CodeFileSaveExector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/save/CodeFileSaveTemplate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/save/HtmlCodeFileSaverTemplate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/core/save/MultiCodeFileSaverTemplate.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/mapper/AppMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/mapper/ChatHistoryMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/service/AppService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/service/ChatHistoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/service/ProjectDownloadService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/service/ScreenshotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-screenshot/src/main/java/com/liuh/codegenerationbackend/service/ScreenshotService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/service/impl/AppServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/service/impl/ChatHistoryServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/service/impl/ProjectDownloadServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/service/impl/ScreenshotServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-screenshot/src/main/java/com/liuh/codegenerationbackend/service/impl/ScreenshotServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/tatelimter/annotation/RateLimit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/tatelimter/aop/RateLimitAop.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/tatelimter/config/RedissonConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/tatelimter/enums/RateLimitType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CodeGeneration-backend/src/main/java/com/liuh/codegenerationbackend/utils/WebScreenshotUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-screenshot/src/main/java/com/liuh/codegenerationbackend/utils/WebScreenshotUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code-ai/src/main/java/com/liuh/codegenerationbackend/config/ReasoningStreamingChatModelConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-ai/src/main/java/com/liuh/codegenerationbackend/config/ReasoningStreamingChatModelConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code-app/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code-client/src/main/java/com/liuh/codeclient/innerservice/InnerScreenshotService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/code-client/src/main/java/com/liuh/codeclient/innerservice/InnerUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-client/src/main/java/com/liuh/codegenerationbackend/innerservice/InnerUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code-user/src/main/java/com/liuh/codeuser/codeUserApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-user/src/main/java/com/liuh/codeuser/CodeUserApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/CodeAppApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/CodeAppApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/ai/service/factory/AiCodeGeneratorServiceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/ai/service/factory/AiCodeGeneratorServiceFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/AiCodeGeneratorFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/AiCodeGeneratorFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/handler/JsonMessageStreamHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/handler/JsonMessageStreamHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/handler/StreamHandlerExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/handler/StreamHandlerExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/parser/CodeParserExector.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/parser/CodeParserExector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/save/CodeFileSaveExector.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/core/save/CodeFileSaveExector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/service/impl/AppServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/java/com/liuh/codegenerationbackend/service/impl/AppServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-app/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/code-app/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-screenshot/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/code-screenshot/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/code-user/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-user/src/main/java/com/liuh/codeuser/CodeUserApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/code-user/src/main/java/com/liuh/codeuser/CodeUserApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code-user/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/code-user/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,38 +106,42 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Maven.CodeGeneration-microservices [package].executor": "Run",
-    "Maven.code-common [package].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.CodeAppApplication.executor": "Run",
-    "Spring Boot.CodeUserApplication.executor": "Run",
-    "Spring Boot.codeUserApplication.executor": "Run",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "J:/Project/PlanetProject/CodeGeneration/CodeGeneration-microservices/code-app/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "问题",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.65172416",
-    "settings.editor.selected.configurable": "File.Encoding",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Maven.CodeGeneration-microservices [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.code-app [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.code-common [package].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.CodeAppApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.CodeScreenshotApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.CodeUserApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.codeUserApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;J:/Project/PlanetProject/CodeGeneration/CodeGeneration-microservices/code-screenshot/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.65172416&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="J:\Project\PlanetProject\CodeGeneration\CodeGeneration-microservices\code-screenshot\src\main\resources" />
       <recent name="J:\Project\PlanetProject\CodeGeneration\CodeGeneration-microservices\code-app\src\main\resources" />
       <recent name="J:\Project\PlanetProject\CodeGeneration\CodeGeneration-microservices\code-user\src\main\java\com\liuh\codegenerationbackend" />
       <recent name="J:\Project\PlanetProject\CodeGeneration\CodeGeneration-microservices\code-user\src\main\resources" />
@@ -153,14 +157,29 @@
   <component name="RunDashboard">
     <option name="configurationTypes">
       <set>
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
         <option value="SpringBootApplicationConfigurationType" />
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.CodeAppApplication">
+  <component name="RunManager" selected="Spring Boot.CodeUserApplication">
     <configuration name="CodeAppApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="code-app" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.liuh.codegenerationbackend.CodeAppApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.liuh.codegenerationbackend.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CodeScreenshotApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="code-screenshot" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.liuh.codegenerationbackend.CodeScreenshotApplication" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.liuh.codegenerationbackend.*" />
@@ -187,6 +206,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.CodeAppApplication" />
+        <item itemvalue="Spring Boot.CodeScreenshotApplication" />
         <item itemvalue="Spring Boot.CodeUserApplication" />
       </list>
     </recent_temporary>
@@ -209,7 +229,10 @@
       <updated>1762170118562</updated>
       <workItem from="1762170119610" duration="3626000" />
       <workItem from="1762173757772" duration="1186000" />
-      <workItem from="1762332321297" duration="1228000" />
+      <workItem from="1762332321297" duration="4293000" />
+      <workItem from="1762339353620" duration="2222000" />
+      <workItem from="1762342633316" duration="1638000" />
+      <workItem from="1762344530257" duration="674000" />
     </task>
     <task id="LOCAL-00001" summary="微服务改造-公共模块(补充)&#10;&#10;补充用户权限效验注解">
       <option name="closed" value="true" />
@@ -235,7 +258,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762173362504</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="微服务改造-应用模块">
+      <option name="closed" value="true" />
+      <created>1762333833524</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1762333833524</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -246,7 +277,8 @@
     <MESSAGE value="微服务改造-公共模块(补充)&#10;&#10;补充用户权限效验注解" />
     <MESSAGE value="微服务改造-数据模型模块&#10;&#10;用于前后端的各种数据请求" />
     <MESSAGE value="微服务改造-服务接口模块&#10;&#10;内部访问接口" />
-    <option name="LAST_COMMIT_MESSAGE" value="微服务改造-服务接口模块&#10;&#10;内部访问接口" />
+    <MESSAGE value="微服务改造-应用模块" />
+    <option name="LAST_COMMIT_MESSAGE" value="微服务改造-应用模块" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
